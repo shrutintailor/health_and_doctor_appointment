@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1071881508823",
+    "project_id": "health-and-doctor-appoin-6dbf9",
+    "storage_bucket": "health-and-doctor-appoin-6dbf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071881508823:android:a54ad5e37bbbb2eeda5d92",
+        "android_client_info": {
+          "package_name": "com.example.health_and_doctor_appointment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071881508823-t0stiukd1bsucp8bco0tejtu8kudtvh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWg-O-spVGw4mTYRm0ngIe9fAjDNI_tfA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071881508823-t0stiukd1bsucp8bco0tejtu8kudtvh9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
