@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   late User user;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser!;
+    user = _auth.currentUser;
   }
 
   @override
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MainPage(),
         '/profile': (context) => UserProfile(),
         '/MyAppointments': (context) => MyAppointments(),
-        '/DoctorProfile': (context) => DoctorProfile(),
+        // '/DoctorProfile': (context) => DoctorProfile(),
       },
       theme: ThemeData(brightness: Brightness.light),
       debugShowCheckedModeBanner: false,

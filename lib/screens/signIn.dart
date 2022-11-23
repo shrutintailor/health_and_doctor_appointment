@@ -31,8 +31,8 @@ class _SignInState extends State<SignIn> {
         return SafeArea(
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return;
+              overscroll.disallowIndicator();
+              return true;
             },
             child: SingleChildScrollView(
               child: Column(
@@ -109,7 +109,7 @@ class _SignInState extends State<SignIn> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Email';
                 } else if (!emailValidate(value)) {
                   return 'Please enter correct Email';
@@ -150,7 +150,7 @@ class _SignInState extends State<SignIn> {
               },
               textInputAction: TextInputAction.done,
               validator: (value) {
-                if (value.isEmpty) return 'Please enter the Passord';
+                if (value!.isEmpty) return 'Please enter the Passord';
                 return null;
               },
               obscureText: true,
@@ -171,7 +171,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       showLoaderDialog(context);
                       _signInWithEmailAndPassword();
                     }
@@ -315,12 +315,12 @@ class _SignInState extends State<SignIn> {
 
   void _signInWithEmailAndPassword() async {
     try {
-      final User user = (await _auth.signInWithEmailAndPassword(
+      final User? user = (await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       ))
           .user;
-      if (!user.emailVerified) {
+      if (!user!.emailVerified) {
         await user.sendEmailVerification();
       }
       Navigator.of(context)

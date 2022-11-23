@@ -41,7 +41,7 @@ class _DiseaseState extends State<Disease> {
               }
               return ListView(
                 physics: BouncingScrollPhysics(),
-                children: snapshot.data.docs.map((document) {
+                children: snapshot.data!.docs.map((document) {
                   return Container(
                       padding: EdgeInsets.only(left: 10, right: 10, top: 0),
                       width: MediaQuery.of(context).size.width,

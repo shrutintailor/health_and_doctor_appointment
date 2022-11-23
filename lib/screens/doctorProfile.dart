@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 class DoctorProfile extends StatefulWidget {
   final String doctor;
 
-  const DoctorProfile({Key key, this.doctor}) : super(key: key);
+  const DoctorProfile({Key? key, required this.doctor}) : super(key: key);
   @override
   _DoctorProfileState createState() => _DoctorProfileState();
 }
@@ -43,13 +43,13 @@ class _DoctorProfileState extends State<DoctorProfile> {
             }
             return NotificationListener<OverscrollIndicatorNotification>(
               onNotification: (OverscrollIndicatorNotification overscroll) {
-                overscroll.disallowGlow();
-                return;
+                overscroll.disallowIndicator();
+                return true;
               },
               child: ListView.builder(
-                itemCount: snapshot.data.size,
+                itemCount: snapshot.data!.size,
                 itemBuilder: (context, index) {
-                  DocumentSnapshot document = snapshot.data.docs[index];
+                  DocumentSnapshot document = snapshot.data!.docs[index];
                   return Container(
                     margin: EdgeInsets.only(top: 5),
                     child: Column(

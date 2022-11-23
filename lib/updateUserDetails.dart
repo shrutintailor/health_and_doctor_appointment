@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class UpdateUserDetails extends StatefulWidget {
   final String label;
   final String field;
-  const UpdateUserDetails({Key key, this.label, this.field}) : super(key: key);
+  const UpdateUserDetails({Key? key, required this.label, required this.field})
+      : super(key: key);
 
   @override
   _UpdateUserDetailsState createState() => _UpdateUserDetailsState();
@@ -14,13 +15,13 @@ class UpdateUserDetails extends StatefulWidget {
 
 class _UpdateUserDetailsState extends State<UpdateUserDetails> {
   TextEditingController _textcontroller = TextEditingController();
-  FocusNode f1;
+  late FocusNode f1;
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  String UserID;
+  late User user;
+  late String UserID;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
     UserID = user.uid;
   }
 
@@ -81,7 +82,7 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
                     },
                     textInputAction: TextInputAction.done,
                     validator: (value) {
-                      if (value.isEmpty)
+                      if (value!.isEmpty)
                         return 'Please Enter the ' + widget.label;
                       return null;
                     },
@@ -131,7 +132,6 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
     if (widget.field.compareTo('name') == 0) {
       await user.updateProfile(displayName: _textcontroller.text);
     }
-    if (widget.field.compareTo('phone') == 0) {
-    }
+    if (widget.field.compareTo('phone') == 0) {}
   }
 }

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DiseaseDetail extends StatefulWidget {
   final String disease;
-  const DiseaseDetail({this.disease});
+  const DiseaseDetail({required this.disease});
   @override
   _DiseaseDetailState createState() => _DiseaseDetailState();
 }
@@ -38,7 +38,7 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
             }
             return ListView(
                 physics: ClampingScrollPhysics(),
-                children: snapshot.data.docs.map((document) {
+                children: snapshot.data!.docs.map((document) {
                   return Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Column(

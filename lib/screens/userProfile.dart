@@ -9,7 +9,7 @@ import 'package:health_and_doctor_appointment/firestore-data/appointmentHistoryL
 import 'package:health_and_doctor_appointment/screens/userSettings.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key key}) : super(key: key);
+  const UserProfile({Key? key}) : super(key: key);
 
   @override
   _UserProfileState createState() => _UserProfileState();
@@ -18,10 +18,10 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  late User user;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
   }
 
   @override
@@ -36,8 +36,8 @@ class _UserProfileState extends State<UserProfile> {
       body: SafeArea(
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowGlow();
-            return;
+            overscroll.disallowIndicator();
+            return true;
           },
           child: ListView(
             physics: ClampingScrollPhysics(),
@@ -86,7 +86,7 @@ class _UserProfileState extends State<UserProfile> {
                         height: MediaQuery.of(context).size.height / 5,
                         padding: EdgeInsets.only(top: 75),
                         child: Text(
-                          user.displayName,
+                          user.displayName ?? "Not Added",
                           style: GoogleFonts.lato(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -103,7 +103,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.teal[50],
+                          color: Colors.teal[50]!.withOpacity(1),
                           width: 5,
                         ),
                         shape: BoxShape.circle),
@@ -142,7 +142,7 @@ class _UserProfileState extends State<UserProfile> {
                           width: 10,
                         ),
                         Text(
-                          user.email,
+                          user.email ?? "Not Added",
                           style: GoogleFonts.lato(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -174,9 +174,7 @@ class _UserProfileState extends State<UserProfile> {
                           width: 10,
                         ),
                         Text(
-                          user?.phoneNumber?.isEmpty ?? true
-                              ? "Not Added"
-                              : user.phoneNumber,
+                          user.phoneNumber ?? "Not Added",
                           style: GoogleFonts.lato(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -327,7 +325,7 @@ class _UserProfileState extends State<UserProfile> {
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(top: 10, left: 40),
           child: Text(
-            userData['bio'] == null ? "No Bio" : userData['bio'],
+            userData!['bio'] == null ? "No Bio" : userData['bio'],
             style: GoogleFonts.lato(
               fontSize: 16,
               fontWeight: FontWeight.w500,

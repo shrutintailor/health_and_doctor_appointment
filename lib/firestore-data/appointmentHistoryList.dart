@@ -11,11 +11,11 @@ class AppointmentHistoryList extends StatefulWidget {
 
 class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  String _documentID;
+  late User user;
+  late String _documentID;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
   }
 
   String _dateFormatter(String _timestamp) {
@@ -61,7 +61,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
               child: CircularProgressIndicator(),
             );
           }
-          return snapshot.data.size == 0
+          return snapshot.data?.size == 0
               ? Text(
                   'History Appears here...',
                   style: GoogleFonts.lato(
@@ -73,9 +73,9 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
                   scrollDirection: Axis.vertical,
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: snapshot.data.size,
+                  itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data.docs[index];
+                    DocumentSnapshot document = snapshot.data!.docs[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

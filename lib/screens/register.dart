@@ -25,7 +25,7 @@ class _RegisterState extends State<Register> {
   FocusNode f3 = new FocusNode();
   FocusNode f4 = new FocusNode();
 
-  bool _isSuccess;
+  late bool _isSuccess;
 
   @override
   void dispose() {
@@ -42,8 +42,8 @@ class _RegisterState extends State<Register> {
         child: Center(
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return;
+              overscroll.disallowIndicator();
+              return true;
             },
             child: SingleChildScrollView(
               child: Column(
@@ -111,7 +111,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) return 'Please enter the Name';
+                if (value!.isEmpty) return 'Please enter the Name';
                 return null;
               },
             ),
@@ -149,7 +149,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Email';
                 } else if (!emailValidate(value)) {
                   return 'Please enter correct Email';
@@ -191,7 +191,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.next,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Password';
                 } else if (value.length < 8) {
                   return 'Password must be at least 8 characters long';
@@ -231,7 +231,7 @@ class _RegisterState extends State<Register> {
               },
               textInputAction: TextInputAction.done,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter the Password';
                 } else if (value.compareTo(_passwordController.text) != 0) {
                   return 'Password not Matching';
@@ -256,7 +256,7 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       showLoaderDialog(context);
                       _registerAccount();
                     }
@@ -430,37 +430,35 @@ class _RegisterState extends State<Register> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      user = credential.user!;
+      if (user != null) {
+        if (!user.emailVerified) {
+          await user.sendEmailVerification();
+        }
+        await user.updateProfile(displayName: _displayName.text);
+
+        FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'name': _displayName.text,
+          'birthDate': null,
+          'email': user.email,
+          'phone': null,
+          'bio': null,
+          'city': null,
+        }, SetOptions(merge: true));
+
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+      } else {
+        _isSuccess = false;
+      }
     } catch (error) {
       if (error.toString().compareTo(
               '[firebase_auth/email-already-in-use] The email address is already in use by another account.') ==
           0) {
         showAlertDialog(context);
-        print(
-            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        print(user);
+        // print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // print(user);
       }
-    }
-    user = credential.user;
-
-    if (user != null) {
-      if (!user.emailVerified) {
-        await user.sendEmailVerification();
-      }
-      await user.updateProfile(displayName: _displayName.text);
-
-      FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'name': _displayName.text,
-        'birthDate': null,
-        'email': user.email,
-        'phone': null,
-        'bio': null,
-        'city': null,
-      }, SetOptions(merge: true));
-
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-    } else {
-      _isSuccess = false;
     }
   }
 

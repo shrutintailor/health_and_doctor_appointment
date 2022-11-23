@@ -6,7 +6,7 @@ import 'package:typicons_flutter/typicons_flutter.dart';
 
 class SearchList extends StatefulWidget {
   final String searchKey;
-  const SearchList({Key key, this.searchKey}) : super(key: key);
+  const SearchList({Key? key, required this.searchKey}) : super(key: key);
 
   @override
   _SearchListState createState() => _SearchListState();
@@ -30,7 +30,7 @@ class _SearchListState extends State<SearchList> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            return snapshot.data.size == 0
+            return snapshot.data!.size == 0
                 ? Center(
                     child: Container(
                       child: Column(
@@ -55,13 +55,13 @@ class _SearchListState extends State<SearchList> {
                     ),
                   )
                 : Scrollbar(
-                  child: ListView.builder(
+                    child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: snapshot.data.size,
+                      itemCount: snapshot.data!.size,
                       itemBuilder: (context, index) {
-                        DocumentSnapshot doctor = snapshot.data.docs[index];
+                        DocumentSnapshot doctor = snapshot.data!.docs[index];
                         return Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: Card(
@@ -91,7 +91,8 @@ class _SearchListState extends State<SearchList> {
                                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage: NetworkImage(doctor['image']),
+                                      backgroundImage:
+                                          NetworkImage(doctor['image']),
                                       //backgroundColor: Colors.blue,
                                       radius: 25,
                                     ),
@@ -101,7 +102,8 @@ class _SearchListState extends State<SearchList> {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           doctor['name'],
@@ -159,7 +161,7 @@ class _SearchListState extends State<SearchList> {
                         );
                       },
                     ),
-                );
+                  );
           },
         ),
       ),

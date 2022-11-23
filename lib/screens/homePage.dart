@@ -22,10 +22,11 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _doctorName = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  late User user;
+  late String _message;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
   }
 
   Future _signOut() async {
@@ -47,7 +48,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String _message;
     DateTime now = DateTime.now();
     String _currentHour = DateFormat('kk').format(now);
     int hour = int.parse(_currentHour);
@@ -111,8 +111,8 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowGlow();
-            return;
+            overscroll.disallowIndicator();
+            return true;
           },
           child: ListView(
             physics: ClampingScrollPhysics(),
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 20, bottom: 10),
                     child: Text(
-                      "Hello " + user.displayName,
+                      "Hello ${user.displayName}",
                       style: GoogleFonts.lato(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         suffixIcon: Container(
                           decoration: BoxDecoration(
-                            color: Colors.blue[900].withOpacity(0.9),
+                            color: Colors.blue[900]!.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: IconButton(
@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                               color: Color(cards[index].cardBackground),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey[400],
+                                  color: Colors.grey[400]!.withOpacity(1),
                                   blurRadius: 4.0,
                                   spreadRadius: 0.0,
                                   offset: Offset(3, 3),

@@ -11,11 +11,11 @@ class MyAppointmentList extends StatefulWidget {
 
 class _MyAppointmentListState extends State<MyAppointmentList> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
-  String _documentID;
+  late User user;
+  late String _documentID;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
   }
 
   Future<void> deleteAppointment(String docID) {
@@ -115,7 +115,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
               child: CircularProgressIndicator(),
             );
           }
-          return snapshot.data.size == 0
+          return snapshot.data!.size == 0
               ? Center(
                   child: Text(
                     'No Appointment Scheduled',
@@ -129,9 +129,9 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                   scrollDirection: Axis.vertical,
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: snapshot.data.size,
+                  itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data.docs[index];
+                    DocumentSnapshot document = snapshot.data!.docs[index];
                     print(_compareDate(document['date'].toDate().toString()));
                     if (_checkDiff(document['date'].toDate())) {
                       deleteAppointment(document.id);

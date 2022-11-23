@@ -82,8 +82,8 @@ class _MainPageState extends State<MainPage> {
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
               child: GNav(
                 curve: Curves.easeOutExpo,
-                rippleColor: Colors.grey[300],
-                hoverColor: Colors.grey[100],
+                rippleColor: Colors.grey[300]!.withOpacity(1),
+                hoverColor: Colors.grey[100]!.withOpacity(1),
                 haptic: true,
                 tabBorderRadius: 20,
                 gap: 5,

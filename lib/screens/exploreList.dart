@@ -7,7 +7,7 @@ import 'package:typicons_flutter/typicons_flutter.dart';
 
 class ExploreList extends StatefulWidget {
   final String type;
-  const ExploreList({Key key, this.type}) : super(key: key);
+  const ExploreList({Key? key, required this.type}) : super(key: key);
 
   @override
   _ExploreListState createState() => _ExploreListState();
@@ -50,9 +50,9 @@ class _ExploreListState extends State<ExploreList> {
               scrollDirection: Axis.vertical,
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: snapshot.data.size,
+              itemCount: snapshot.data!.size,
               itemBuilder: (context, index) {
-                DocumentSnapshot doctor = snapshot.data.docs[index];
+                DocumentSnapshot doctor = snapshot.data!.docs[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Card(

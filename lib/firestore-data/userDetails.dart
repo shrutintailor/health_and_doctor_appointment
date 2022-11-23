@@ -11,10 +11,10 @@ class UserDetails extends StatefulWidget {
 
 class _UserDetailsState extends State<UserDetails> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  late User user;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
   }
 
   List labelName = [
@@ -97,7 +97,7 @@ class _UserDetailsState extends State<UserDetails> {
                             ),
                           ),
                           Text(
-                            userData[value[index]]?.isEmpty ?? true
+                            userData![value[index]]?.isEmpty ?? true
                                 ? 'Not Added'
                                 : userData[value[index]],
                             style: GoogleFonts.lato(

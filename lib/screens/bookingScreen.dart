@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 class BookingScreen extends StatefulWidget {
   final String doctor;
 
-  const BookingScreen({Key key, this.doctor}) : super(key: key);
+  const BookingScreen({Key? key, required this.doctor}) : super(key: key);
   @override
   _BookingScreenState createState() => _BookingScreenState();
 }
@@ -32,14 +32,14 @@ class _BookingScreenState extends State<BookingScreen> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay currentTime = TimeOfDay.now();
   String timeText = 'Select Time';
-  String dateUTC;
-  String date_Time;
+  late String dateUTC;
+  late String date_Time;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
-  User user;
+  late User user;
 
   Future<void> _getUser() async {
-    user = _auth.currentUser;
+    user = _auth.currentUser!;
   }
 
   Future<void> selectDate(BuildContext context) async {
@@ -52,7 +52,7 @@ class _BookingScreenState extends State<BookingScreen> {
       (date) {
         setState(
           () {
-            selectedDate = date;
+            selectedDate = date!;
             String formattedDate =
                 DateFormat('dd-MM-yyyy').format(selectedDate);
             _dateController.text = formattedDate;
@@ -64,13 +64,13 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   Future<void> selectTime(BuildContext context) async {
-    TimeOfDay selectedTime = await showTimePicker(
+    TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: currentTime,
     );
 
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
-    String formattedTime = localizations.formatTimeOfDay(selectedTime,
+    String formattedTime = localizations.formatTimeOfDay(selectedTime!,
         alwaysUse24HourFormat: false);
 
     if (formattedTime != null) {
@@ -156,8 +156,8 @@ class _BookingScreenState extends State<BookingScreen> {
       body: SafeArea(
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowGlow();
-            return;
+            overscroll.disallowIndicator();
+            return true;
           },
           child: ListView(
             shrinkWrap: true,
@@ -197,7 +197,8 @@ class _BookingScreenState extends State<BookingScreen> {
                         controller: _nameController,
                         focusNode: f1,
                         validator: (value) {
-                          if (value.isEmpty) return 'Please Enter Patient Name';
+                          if (value!.isEmpty)
+                            return 'Please Enter Patient Name';
                           return null;
                         },
                         style: GoogleFonts.lato(
@@ -252,7 +253,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           ),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please Enter Phone number';
                           } else if (value.length < 10) {
                             return 'Please Enter correct Phone number';
@@ -304,7 +305,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       TextFormField(
                         controller: _doctorController,
                         validator: (value) {
-                          if (value.isEmpty) return 'Please enter Doctor name';
+                          if (value!.isEmpty) return 'Please enter Doctor name';
                           return null;
                         },
                         style: GoogleFonts.lato(
@@ -361,7 +362,7 @@ class _BookingScreenState extends State<BookingScreen> {
                               ),
                               controller: _dateController,
                               validator: (value) {
-                                if (value.isEmpty)
+                                if (value!.isEmpty)
                                   return 'Please Enter the Date';
                                 return null;
                               },
@@ -432,7 +433,7 @@ class _BookingScreenState extends State<BookingScreen> {
                               ),
                               controller: _timeController,
                               validator: (value) {
-                                if (value.isEmpty)
+                                if (value!.isEmpty)
                                   return 'Please Enter the Time';
                                 return null;
                               },
@@ -484,7 +485,7 @@ class _BookingScreenState extends State<BookingScreen> {
                             ),
                           ),
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               print(_nameController.text);
                               print(_dateController.text);
                               print(widget.doctor);
