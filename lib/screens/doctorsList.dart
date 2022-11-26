@@ -11,7 +11,7 @@ class DoctorsList extends StatefulWidget {
 
 class _DoctorsListState extends State<DoctorsList> {
   TextEditingController _textController = new TextEditingController();
-  late String search;
+  var search;
   var _length = 0;
 
   @override

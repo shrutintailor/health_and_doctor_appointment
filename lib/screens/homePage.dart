@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _doctorName = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
-  late String _message;
+  var user;
+  var _message;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;

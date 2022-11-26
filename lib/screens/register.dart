@@ -25,7 +25,7 @@ class _RegisterState extends State<Register> {
   FocusNode f3 = new FocusNode();
   FocusNode f4 = new FocusNode();
 
-  late bool _isSuccess;
+  var _isSuccess;
 
   @override
   void dispose() {

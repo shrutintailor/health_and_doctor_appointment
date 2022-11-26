@@ -12,7 +12,7 @@ class _UserSettingsState extends State<UserSettings> {
   UserDetails detail = new UserDetails();
 
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
+  var user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;

@@ -15,10 +15,10 @@ class UpdateUserDetails extends StatefulWidget {
 
 class _UpdateUserDetailsState extends State<UpdateUserDetails> {
   TextEditingController _textcontroller = TextEditingController();
-  late FocusNode f1;
+  FocusNode f1 = new FocusNode();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
-  late String UserID;
+  var user;
+  var UserID;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;

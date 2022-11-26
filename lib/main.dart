@@ -25,7 +25,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
+  var user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
@@ -43,11 +43,11 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MainPage(),
         '/profile': (context) => UserProfile(),
         '/MyAppointments': (context) => MyAppointments(),
-        // '/DoctorProfile': (context) => DoctorProfile(),
+        '/DoctorProfile': (context) => DoctorProfile(doctor: ''),
       },
       theme: ThemeData(brightness: Brightness.light),
       debugShowCheckedModeBanner: false,
-      //home: FirebaseAuthDemo(),
+      // home: FirebaseAuthDemo(),
     );
   }
 }

@@ -18,7 +18,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
+  var user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;

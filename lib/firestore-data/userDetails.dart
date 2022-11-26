@@ -11,7 +11,7 @@ class UserDetails extends StatefulWidget {
 
 class _UserDetailsState extends State<UserDetails> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
+  var user;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;

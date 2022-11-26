@@ -11,8 +11,8 @@ class MyAppointmentList extends StatefulWidget {
 
 class _MyAppointmentListState extends State<MyAppointmentList> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
-  late String _documentID;
+  var user;
+  var _documentID;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;
