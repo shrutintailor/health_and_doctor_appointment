@@ -5,12 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class MyAppointmentList extends StatefulWidget {
+  const MyAppointmentList({Key? key}) : super(key: key);
+
   @override
-  _MyAppointmentListState createState() => _MyAppointmentListState();
+  State<MyAppointmentList> createState() => _MyAppointmentListState();
 }
 
 class _MyAppointmentListState extends State<MyAppointmentList> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
   var _documentID;
 
@@ -42,13 +44,13 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("No"),
+      child: const Text("No"),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Yes"),
+      child: const Text("Yes"),
       onPressed: () {
         deleteAppointment(_documentID);
         Navigator.of(context).pop();
@@ -57,8 +59,8 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Confirm Delete"),
-      content: Text("Are you sure you want to delete this Appointment?"),
+      title: const Text("Confirm Delete"),
+      content: const Text("Are you sure you want to delete this Appointment?"),
       actions: [
         cancelButton,
         continueButton,
@@ -111,7 +113,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -127,7 +129,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                 )
               : ListView.builder(
                   scrollDirection: Axis.vertical,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
@@ -164,7 +166,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 0,
                               ),
                             ],
@@ -190,21 +192,18 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Patient name: " + document['name'],
+                                        "Patient name: ${document['name']}",
                                         style: GoogleFonts.lato(
                                           fontSize: 16,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Text(
-                                        "Time: " +
-                                            _timeFormatter(
-                                              document['date']
-                                                  .toDate()
-                                                  .toString(),
-                                            ),
+                                        "Time: ${_timeFormatter(
+                                          document['date'].toDate().toString(),
+                                        )}",
                                         style: GoogleFonts.lato(
                                           fontSize: 16,
                                         ),
@@ -213,12 +212,11 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                   ),
                                   IconButton(
                                     tooltip: 'Delete Appointment',
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.delete,
                                       color: Colors.black87,
                                     ),
                                     onPressed: () {
-                                      print(">>>>>>>>>" + document.id);
                                       _documentID = document.id;
                                       showAlertDialog(context);
                                     },

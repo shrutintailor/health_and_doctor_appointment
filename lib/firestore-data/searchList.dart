@@ -9,7 +9,7 @@ class SearchList extends StatefulWidget {
   const SearchList({Key? key, required this.searchKey}) : super(key: key);
 
   @override
-  _SearchListState createState() => _SearchListState();
+  State<SearchList> createState() => _SearchListState();
 }
 
 class _SearchListState extends State<SearchList> {
@@ -22,14 +22,15 @@ class _SearchListState extends State<SearchList> {
           stream: FirebaseFirestore.instance
               .collection('doctors')
               .orderBy('name')
-              .startAt(['Dr. ' + widget.searchKey]).endAt(
-                  ['Dr. ' + widget.searchKey + '\uf8ff']).snapshots(),
+              .startAt(['Dr. ${widget.searchKey}']).endAt(
+                  ['Dr. ${widget.searchKey}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData)
-              return Center(
+            if (!snapshot.hasData) {
+              return const Center(
                 child: CircularProgressIndicator(),
               );
+            }
             return snapshot.data!.size == 0
                 ? Center(
                     child: Container(
@@ -45,7 +46,7 @@ class _SearchListState extends State<SearchList> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Image(
+                          const Image(
                             image: AssetImage('assets/error-404.jpg'),
                             height: 250,
                             width: 250,
@@ -57,7 +58,7 @@ class _SearchListState extends State<SearchList> {
                 : Scrollbar(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.size,
                       itemBuilder: (context, index) {
@@ -71,8 +72,8 @@ class _SearchListState extends State<SearchList> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Container(
-                              padding:
-                                  EdgeInsets.only(left: 10, right: 10, top: 0),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 0),
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height / 9,
                               child: TextButton(
@@ -96,7 +97,7 @@ class _SearchListState extends State<SearchList> {
                                       //backgroundColor: Colors.blue,
                                       radius: 25,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Column(
@@ -121,7 +122,7 @@ class _SearchListState extends State<SearchList> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
@@ -138,7 +139,7 @@ class _SearchListState extends State<SearchList> {
                                               size: 20,
                                               color: Colors.indigo[400],
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 3,
                                             ),
                                             Text(

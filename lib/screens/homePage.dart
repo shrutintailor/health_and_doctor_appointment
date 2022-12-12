@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
-import 'package:flutter/painting.dart';
 import 'package:health_and_doctor_appointment/firestore-data/notificationList.dart';
 import 'package:health_and_doctor_appointment/model/cardModel.dart';
 import 'package:health_and_doctor_appointment/carouselSlider.dart';
@@ -11,17 +9,19 @@ import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _doctorName = TextEditingController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
   var _message;
 
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _getUser();
-    _doctorName = new TextEditingController();
+    _doctorName = TextEditingController();
   }
 
   @override
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Container(
-          padding: EdgeInsets.only(top: 5),
+          padding: const EdgeInsets.only(top: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -88,23 +88,23 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 55,
               ),
               IconButton(
                 splashRadius: 20,
-                icon: Icon(Icons.notifications_active),
+                icon: const Icon(Icons.notifications_active),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contex) => NotificationList()));
+                          builder: (contex) => const NotificationList()));
                 },
               ),
             ],
           ),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black,
         ),
       ),
@@ -115,17 +115,17 @@ class _HomePageState extends State<HomePage> {
             return true;
           },
           child: ListView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
               Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 20, bottom: 10),
+                    padding: const EdgeInsets.only(left: 20, bottom: 10),
                     child: Text(
                       "Hello ${user.displayName}",
                       style: GoogleFonts.lato(
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 20, bottom: 25),
+                    padding: const EdgeInsets.only(left: 20, bottom: 25),
                     child: Text(
                       "Let's Find Your\nDoctor",
                       style: GoogleFonts.lato(
@@ -146,14 +146,14 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 25),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
                     child: TextFormField(
                       textInputAction: TextInputAction.search,
                       controller: _doctorName,
                       decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                        border: OutlineInputBorder(
+                        contentPadding: const EdgeInsets.only(
+                            left: 20, top: 10, bottom: 10),
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                           borderSide: BorderSide.none,
                         ),
@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                             iconSize: 20,
                             splashRadius: 20,
                             color: Colors.white,
-                            icon: Icon(FlutterIcons.search1_ant),
+                            icon: const Icon(FlutterIcons.search1_ant),
                             onPressed: () {},
                           ),
                         ),
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 23, bottom: 10),
+                    padding: const EdgeInsets.only(left: 23, bottom: 10),
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "We care for you",
@@ -213,12 +213,12 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 18),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Carouselslider(),
+                    child: const Carouselslider(),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Specialists",
@@ -231,16 +231,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     height: 150,
-                    padding: EdgeInsets.only(top: 14),
+                    padding: const EdgeInsets.only(top: 14),
                     child: ListView.builder(
-                      physics: ClampingScrollPhysics(),
+                      physics: const ClampingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       itemCount: cards.length,
                       itemBuilder: (context, index) {
                         //print("images path: ${cards[index].cardImage.toString()}");
                         return Container(
-                          margin: EdgeInsets.only(right: 14),
+                          margin: const EdgeInsets.only(right: 14),
                           height: 150,
                           width: 140,
                           decoration: BoxDecoration(
@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                                   color: Colors.grey[400]!.withOpacity(1),
                                   blurRadius: 4.0,
                                   spreadRadius: 0.0,
-                                  offset: Offset(3, 3),
+                                  offset: const Offset(3, 3),
                                 ),
                               ]
                               // image: DecorationImage(
@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
                                 Container(
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
                                             Color(cards[index].cardBackground),
                                       )),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Container(
@@ -309,11 +309,11 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 20),
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Top Rated",
@@ -324,14 +324,14 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 18),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: TopRatedList(),
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: const TopRatedList(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

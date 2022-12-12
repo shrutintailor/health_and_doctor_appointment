@@ -6,9 +6,11 @@ import 'package:health_and_doctor_appointment/screens/disease.dart';
 import 'package:health_and_doctor_appointment/screens/diseasedetail.dart';
 
 class Carouselslider extends StatelessWidget {
+  const Carouselslider({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 150,
       width: MediaQuery.of(context).size.width,
       child: CarouselSlider.builder(
@@ -18,12 +20,12 @@ class Carouselslider extends StatelessWidget {
             //alignment:  Alignment.centerLeft,
             //width: MediaQuery.of(context).size.width,
             height: 140,
-            margin: EdgeInsets.only(left: 0, right: 0, bottom: 20),
-            padding: EdgeInsets.only(left: 0),
+            margin: const EdgeInsets.only(left: 0, right: 0, bottom: 20),
+            padding: const EdgeInsets.only(left: 0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
-                stops: [0.3, 0.7],
+                stops: const [0.3, 0.7],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: bannerCards[index].cardBackground,
@@ -38,7 +40,7 @@ class Carouselslider extends StatelessWidget {
                       }))
                     : Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                        return DiseaseDetail(disease: 'Covid-19');
+                        return const DiseaseDetail(disease: 'Covid-19');
                       }));
               },
               child: Stack(
@@ -49,7 +51,7 @@ class Carouselslider extends StatelessWidget {
                     fit: BoxFit.fitHeight,
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 7, right: 5),
+                    padding: const EdgeInsets.only(top: 7, right: 5),
                     alignment: Alignment.topRight,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +83,7 @@ class Carouselslider extends StatelessWidget {
           autoPlay: true,
           enlargeCenterPage: true,
           enableInfiniteScroll: false,
-          scrollPhysics: ClampingScrollPhysics(),
+          scrollPhysics: const ClampingScrollPhysics(),
         ),
       ),
     );

@@ -55,7 +55,7 @@ class _UserDetailsState extends State<UserDetails> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          var userData = snapshot.data;
+          var userData = snapshot.data as Map;
           return ListView(
             scrollDirection: Axis.vertical,
             physics: ClampingScrollPhysics(),
@@ -97,7 +97,7 @@ class _UserDetailsState extends State<UserDetails> {
                             ),
                           ),
                           Text(
-                            userData![value[index]]?.isEmpty ?? true
+                            userData[value[index]].isEmpty ?? true
                                 ? 'Not Added'
                                 : userData[value[index]],
                             style: GoogleFonts.lato(

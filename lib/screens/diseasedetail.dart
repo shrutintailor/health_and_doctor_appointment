@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DiseaseDetail extends StatefulWidget {
   final String disease;
-  const DiseaseDetail({required this.disease});
+  const DiseaseDetail({Key? key, required this.disease}) : super(key: key);
   @override
-  _DiseaseDetailState createState() => _DiseaseDetailState();
+  State<DiseaseDetail> createState() => _DiseaseDetailState();
 }
 
 class _DiseaseDetailState extends State<DiseaseDetail> {
@@ -15,7 +15,7 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
@@ -28,27 +28,27 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
               .collection('disease')
               .orderBy('Name')
               .startAt([widget.disease]).endAt(
-                  [widget.disease + '\uf8ff']).snapshots(),
+                  ['${widget.disease}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             return ListView(
-                physics: ClampingScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 children: snapshot.data!.docs.map((document) {
                   return Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                            margin: EdgeInsets.only(left: 15, right: 15),
-                            padding: EdgeInsets.only(left: 20, right: 20),
+                            margin: const EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -59,12 +59,12 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                               style: GoogleFonts.lato(
                                   color: Colors.black54, fontSize: 18),
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                            margin: EdgeInsets.only(left: 15, right: 15),
-                            padding: EdgeInsets.only(left: 20, right: 20),
+                            margin: const EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -81,7 +81,7 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                                       fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.left,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Text(
@@ -93,12 +93,12 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                                 )
                               ],
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                            margin: EdgeInsets.only(left: 15, right: 15),
-                            padding: EdgeInsets.only(left: 20, right: 20),
+                            margin: const EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -115,7 +115,7 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                                       fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.left,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Text(
@@ -127,12 +127,12 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                                 )
                               ],
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                            margin: EdgeInsets.only(left: 15, right: 15),
-                            padding: EdgeInsets.only(left: 20, right: 20),
+                            margin: const EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 20, right: 20),
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -149,7 +149,7 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                                       fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.left,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Text(

@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -8,8 +5,10 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'firebaseAuth.dart';
 
 class Skip extends StatefulWidget {
+  const Skip({Key? key}) : super(key: key);
+
   @override
-  _SkipState createState() => _SkipState();
+  State<Skip> createState() => _SkipState();
 }
 
 class _SkipState extends State<Skip> {
@@ -80,6 +79,11 @@ class _SkipState extends State<Skip> {
           width: 80,
           height: 48,
           child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            color: Colors.blue[300],
+            shadowColor: Colors.blueGrey[100],
+            elevation: 5,
             child: Center(
               child: Text(
                 'Skip',
@@ -88,16 +92,16 @@ class _SkipState extends State<Skip> {
                     GoogleFonts.lato(fontSize: 25, fontWeight: FontWeight.w900),
               ),
             ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.blue[300],
-            shadowColor: Colors.blueGrey[100],
-            elevation: 5,
           ),
         ),
         done: SizedBox(
           height: 48,
           child: Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            color: Colors.blue[300],
+            shadowColor: Colors.blueGrey[200],
+            elevation: 5,
             child: Center(
               child: Text(
                 'Continue',
@@ -106,14 +110,9 @@ class _SkipState extends State<Skip> {
                     GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w900),
               ),
             ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Colors.blue[300],
-            shadowColor: Colors.blueGrey[200],
-            elevation: 5,
           ),
         ),
-        onDone: () => _pushPage(context, FireBaseAuth()),
+        onDone: () => _pushPage(context, const FireBaseAuth()),
       ),
     );
   }

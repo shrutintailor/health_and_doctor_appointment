@@ -5,8 +5,10 @@ import 'package:health_and_doctor_appointment/screens/doctorProfile.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
 
 class TopRatedList extends StatefulWidget {
+  const TopRatedList({Key? key}) : super(key: key);
+
   @override
-  _TopRatedListState createState() => _TopRatedListState();
+  State<TopRatedList> createState() => _TopRatedListState();
 }
 
 class _TopRatedListState extends State<TopRatedList> {
@@ -19,13 +21,14 @@ class _TopRatedListState extends State<TopRatedList> {
             .orderBy('rating', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData)
-            return Center(
+          if (!snapshot.hasData) {
+            return const Center(
               child: CircularProgressIndicator(),
             );
+          }
           return ListView.builder(
             scrollDirection: Axis.vertical,
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemCount: 5,
             itemBuilder: (context, index) {
@@ -39,7 +42,7 @@ class _TopRatedListState extends State<TopRatedList> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Container(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 0),
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 9,
                     child: TextButton(
@@ -62,7 +65,7 @@ class _TopRatedListState extends State<TopRatedList> {
                             //backgroundColor: Colors.blue,
                             radius: 25,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Column(
@@ -84,7 +87,7 @@ class _TopRatedListState extends State<TopRatedList> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Expanded(
@@ -99,7 +102,7 @@ class _TopRatedListState extends State<TopRatedList> {
                                     size: 20,
                                     color: Colors.indigo[400],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 3,
                                   ),
                                   Text(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/screens/bookingScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,7 +10,7 @@ class DoctorProfile extends StatefulWidget {
 
   const DoctorProfile({Key? key, required this.doctor}) : super(key: key);
   @override
-  _DoctorProfileState createState() => _DoctorProfileState();
+  State<DoctorProfile> createState() => _DoctorProfileState();
 }
 
 class _DoctorProfileState extends State<DoctorProfile> {
@@ -33,11 +32,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
               .collection('doctors')
               .orderBy('name')
               .startAt([widget.doctor]).endAt(
-                  [widget.doctor + '\uf8ff']).snapshots(),
+                  ['${widget.doctor}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -51,16 +50,16 @@ class _DoctorProfileState extends State<DoctorProfile> {
                 itemBuilder: (context, index) {
                   DocumentSnapshot document = snapshot.data!.docs[index];
                   return Container(
-                    margin: EdgeInsets.only(top: 5),
+                    margin: const EdgeInsets.only(top: 5),
                     child: Column(
                       children: <Widget>[
                         Container(
                           alignment: Alignment.centerLeft,
                           height: 50,
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.only(left: 5),
                           child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.chevron_left_sharp,
                               color: Colors.indigo,
                               size: 30,
@@ -75,7 +74,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           //backgroundColor: Colors.lightBlue[100],
                           radius: 80,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text(
@@ -85,7 +84,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             fontSize: 24,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
@@ -95,32 +94,32 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               fontSize: 18,
                               color: Colors.black54),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             for (var i = 0; i < document['rating']; i++)
-                              Icon(
+                              const Icon(
                                 Icons.star_rounded,
                                 color: Colors.indigoAccent,
                                 size: 30,
                               ),
                             if (5 - document['rating'] > 0)
                               for (var i = 0; i < 5 - document['rating']; i++)
-                                Icon(
+                                const Icon(
                                   Icons.star_rounded,
                                   color: Colors.black12,
                                   size: 30,
                                 ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 14,
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 22, right: 22),
+                          padding: const EdgeInsets.only(left: 22, right: 22),
                           alignment: Alignment.center,
                           child: Text(
                             document['specification'],
@@ -131,24 +130,24 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
-                              Icon(Icons.place_outlined),
-                              SizedBox(
+                              const Icon(Icons.place_outlined),
+                              const SizedBox(
                                 width: 20,
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.4,
                                 child: Text(
                                   document['address'],
@@ -157,7 +156,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                             ],
@@ -165,43 +164,43 @@ class _DoctorProfileState extends State<DoctorProfile> {
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height / 12,
-                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
-                              Icon(FlutterIcons.phone_in_talk_mco),
-                              SizedBox(
+                              const Icon(FlutterIcons.phone_in_talk_mco),
+                              const SizedBox(
                                 width: 11,
                               ),
                               TextButton(
                                 onPressed: () =>
-                                    _launchCaller("tel:" + document['phone']),
+                                    _launchCaller("tel: ${document['phone']}"),
                                 child: Text(
                                   document['phone'].toString(),
                                   style: GoogleFonts.lato(
                                       fontSize: 16, color: Colors.blue),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 0,
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
-                              Icon(Icons.access_time_rounded),
-                              SizedBox(
+                              const Icon(Icons.access_time_rounded),
+                              const SizedBox(
                                 width: 20,
                               ),
                               Text(
@@ -213,12 +212,12 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          padding: EdgeInsets.only(left: 60),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.only(left: 60),
                           child: Row(
                             children: [
                               Text(
@@ -228,7 +227,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
@@ -242,18 +241,18 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
                           height: 50,
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.indigo.withOpacity(0.9),
                               elevation: 2,
-                              primary: Colors.indigo.withOpacity(0.9),
-                              onPrimary: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(32.0),
                               ),
@@ -278,7 +277,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                       ],

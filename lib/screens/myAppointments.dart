@@ -1,16 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/firestore-data/myAppointmentList.dart';
 
 class MyAppointments extends StatefulWidget {
+  const MyAppointments({Key? key}) : super(key: key);
+
   @override
-  _MyAppointmentsState createState() => _MyAppointmentsState();
+  State<MyAppointments> createState() => _MyAppointmentsState();
 }
 
 class _MyAppointmentsState extends State<MyAppointments> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
 
   Future<void> _getUser() async {
@@ -31,7 +32,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
         backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
             'My Appointments',
             style: GoogleFonts.lato(
@@ -40,11 +41,11 @@ class _MyAppointmentsState extends State<MyAppointments> {
             ),
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Container(
-        padding: EdgeInsets.only(right: 10, left: 10, top: 10),
-        child: MyAppointmentList(),
+        padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
+        child: const MyAppointmentList(),
       ),
     );
   }

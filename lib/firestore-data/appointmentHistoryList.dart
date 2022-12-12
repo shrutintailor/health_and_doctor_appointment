@@ -5,12 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentHistoryList extends StatefulWidget {
+  const AppointmentHistoryList({Key? key}) : super(key: key);
+
   @override
-  _AppointmentHistoryListState createState() => _AppointmentHistoryListState();
+  State<AppointmentHistoryList> createState() => _AppointmentHistoryListState();
 }
 
 class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
   var _documentID;
 
@@ -57,7 +59,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -71,7 +73,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
                 )
               : ListView.builder(
                   scrollDirection: Axis.vertical,
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: snapshot.data!.size,
                   itemBuilder: (context, index) {
@@ -80,7 +82,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: EdgeInsets.only(left: 10, top: 5),
+                          padding: const EdgeInsets.only(left: 10, top: 5),
                           height: 50,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
@@ -104,7 +106,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                       ],

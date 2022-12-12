@@ -4,14 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/firestore-data/userDetails.dart';
 
 class UserSettings extends StatefulWidget {
+  const UserSettings({Key? key}) : super(key: key);
+
   @override
-  _UserSettingsState createState() => _UserSettingsState();
+  State<UserSettings> createState() => _UserSettingsState();
 }
 
 class _UserSettingsState extends State<UserSettings> {
-  UserDetails detail = new UserDetails();
+  UserDetails detail = UserDetails();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
 
   Future<void> _getUser() async {
@@ -38,7 +40,7 @@ class _UserSettingsState extends State<UserSettings> {
           padding: const EdgeInsets.only(left: 10),
           child: IconButton(
             splashRadius: 25,
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios,
               color: Colors.indigo,
             ),
@@ -55,8 +57,8 @@ class _UserSettingsState extends State<UserSettings> {
         children: [
           UserDetails(),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            padding: EdgeInsets.symmetric(horizontal: 14),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
             height: MediaQuery.of(context).size.height / 14,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -69,7 +71,7 @@ class _UserSettingsState extends State<UserSettings> {
                     '/login', (Route<dynamic> route) => false);
                 _signOut();
               },
-              style: TextButton.styleFrom(primary: Colors.grey),
+              style: TextButton.styleFrom(foregroundColor: Colors.grey),
               child: Text(
                 'Sign out',
                 style: GoogleFonts.lato(

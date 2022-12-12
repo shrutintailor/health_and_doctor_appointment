@@ -8,28 +8,29 @@ import 'package:health_and_doctor_appointment/screens/doctorsList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
   @override
-  _MainPageState createState() => _MainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-  List<Widget> _pages = [
-    HomePage(),
-    DoctorsList(),
+  final List<Widget> _pages = [
+    const HomePage(),
+    const DoctorsList(),
     //Center(child: Text('New Appointment')),
-    MyAppointments(),
-    UserProfile(),
+    const MyAppointments(),
+    const UserProfile(),
   ];
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
 
   Future<void> _getUser() async {
@@ -65,7 +66,7 @@ class _MainPageState extends State<MainPage> {
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
@@ -88,8 +89,9 @@ class _MainPageState extends State<MainPage> {
                 tabBorderRadius: 20,
                 gap: 5,
                 activeColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                duration: Duration(milliseconds: 400),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                duration: const Duration(milliseconds: 400),
                 tabBackgroundColor: Colors.blue.withOpacity(0.7),
                 textStyle: GoogleFonts.lato(
                   color: Colors.white,
@@ -102,7 +104,7 @@ class _MainPageState extends State<MainPage> {
                         : FlutterIcons.home_variant_outline_mco,
                     text: 'Home',
                   ),
-                  GButton(
+                  const GButton(
                     icon: FlutterIcons.search1_ant,
                     text: 'Search',
                   ),

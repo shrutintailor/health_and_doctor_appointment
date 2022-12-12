@@ -4,8 +4,10 @@ import 'package:health_and_doctor_appointment/screens/register.dart';
 import 'package:health_and_doctor_appointment/screens/signIn.dart';
 
 class FireBaseAuth extends StatefulWidget {
+  const FireBaseAuth({Key? key}) : super(key: key);
+
   @override
-  _FireBaseAuthState createState() => _FireBaseAuthState();
+  State<FireBaseAuth> createState() => _FireBaseAuthState();
 
   // void out2(BuildContext context) {
   //   Navigator.pop(context);
@@ -19,8 +21,8 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
       body: Stack(
         children: [
           Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
+            constraints: const BoxConstraints.expand(),
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                   "assets/image-medical.jpg",
@@ -34,7 +36,7 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
               alignment: Alignment.topCenter,
               child: Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 80.0, left: 25),
+                padding: const EdgeInsets.only(top: 80.0, left: 25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,10 +77,21 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
+                          padding: const EdgeInsets.all(16),
+                          alignment: Alignment.center,
                           child: SizedBox(
                             width: double.infinity,
                             height: 50.0,
                             child: ElevatedButton(
+                              onPressed: () => _pushPage(context, SignIn()),
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.indigo[800],
+                                elevation: 2,
+                                backgroundColor: Colors.indigo[800],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(32.0),
+                                ),
+                              ),
                               child: Text(
                                 "Sign in",
                                 style: GoogleFonts.lato(
@@ -87,27 +100,26 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              onPressed: () => _pushPage(context, SignIn()),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 2,
-                                primary: Colors.indigo[800],
-                                onPrimary: Colors.indigo[800],
-                                shape: RoundedRectangleBorder(
-                                  
-                                  borderRadius: BorderRadius.circular(32.0),
-                                ),
-                              ),
                             ),
                           ),
-                          padding: const EdgeInsets.all(16),
-                          alignment: Alignment.center,
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 1.1,
+                          padding: const EdgeInsets.all(16),
+                          alignment: Alignment.center,
                           child: SizedBox(
                             width: double.infinity,
                             height: 50.0,
                             child: ElevatedButton(
+                              onPressed: () => _pushPage(context, Register()),
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.white,
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(32.0),
+                                ),
+                              ),
                               child: Text(
                                 "Create an Account",
                                 style: GoogleFonts.lato(
@@ -116,20 +128,8 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              onPressed: () => _pushPage(context, Register()),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 2,
-                                primary: Colors.white,
-                                onPrimary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  
-                                  borderRadius: BorderRadius.circular(32.0),
-                                ),
-                              ),
                             ),
                           ),
-                          padding: const EdgeInsets.all(16),
-                          alignment: Alignment.center,
                         ),
                         // Container(
                         //   width: MediaQuery.of(context).size.width / 1.1,
@@ -158,7 +158,7 @@ class _FireBaseAuthState extends State<FireBaseAuth> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                 ],

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +9,7 @@ class ExploreList extends StatefulWidget {
   const ExploreList({Key? key, required this.type}) : super(key: key);
 
   @override
-  _ExploreListState createState() => _ExploreListState();
+  State<ExploreList> createState() => _ExploreListState();
 }
 
 class _ExploreListState extends State<ExploreList> {
@@ -20,35 +19,35 @@ class _ExploreListState extends State<ExploreList> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          widget.type + 's',
+          '${widget.type}s',
           style: GoogleFonts.lato(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black,
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('doctors')
               .orderBy('type')
               .startAt([widget.type]).endAt(
-                  [widget.type + '\uf8ff']).snapshots(),
+                  ['${widget.type}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             return ListView.builder(
               scrollDirection: Axis.vertical,
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data!.size,
               itemBuilder: (context, index) {
@@ -62,7 +61,7 @@ class _ExploreListState extends State<ExploreList> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 9,
                       child: TextButton(
@@ -80,11 +79,11 @@ class _ExploreListState extends State<ExploreList> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           //mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               backgroundColor: Colors.blue,
                               radius: 25,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Column(
@@ -106,7 +105,7 @@ class _ExploreListState extends State<ExploreList> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Expanded(
@@ -121,7 +120,7 @@ class _ExploreListState extends State<ExploreList> {
                                       size: 20,
                                       color: Colors.indigo[400],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 3,
                                     ),
                                     Text(

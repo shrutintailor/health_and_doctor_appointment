@@ -20,11 +20,19 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   var user;
 
   Future<void> _getUser() async {
@@ -38,12 +46,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => user == null ? Skip() : MainPage(),
-        '/login': (context) => FireBaseAuth(),
+        '/': (context) => user == null ? const Skip() : MainPage(),
+        '/login': (context) => const FireBaseAuth(),
         '/home': (context) => MainPage(),
-        '/profile': (context) => UserProfile(),
-        '/MyAppointments': (context) => MyAppointments(),
-        '/DoctorProfile': (context) => DoctorProfile(doctor: ''),
+        '/profile': (context) => const UserProfile(),
+        '/MyAppointments': (context) => const MyAppointments(),
+        '/DoctorProfile': (context) => const DoctorProfile(doctor: ''),
       },
       theme: ThemeData(brightness: Brightness.light),
       debugShowCheckedModeBanner: false,

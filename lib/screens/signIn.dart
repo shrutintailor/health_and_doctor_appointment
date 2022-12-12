@@ -1,26 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/screens/register.dart';
 
-import '../mainPage.dart';
-
 class SignIn extends StatefulWidget {
+  const SignIn({Key? key}) : super(key: key);
+
   @override
-  _SignInState createState() => _SignInState();
+  State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _passwordController = TextEditingController();
 
-  FocusNode f1 = new FocusNode();
-  FocusNode f2 = new FocusNode();
-  FocusNode f3 = new FocusNode();
+  FocusNode f1 = FocusNode();
+  FocusNode f2 = FocusNode();
+  FocusNode f3 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(10, 30, 10, 10),
+                    padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
                     child: withEmailPassword(),
                   ),
                 ],
@@ -67,11 +67,11 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 25),
+              padding: const EdgeInsets.only(bottom: 25),
               child: Text(
                 'Login',
                 style: GoogleFonts.lato(
@@ -89,8 +89,9 @@ class _SignInState extends State<SignIn> {
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                border: OutlineInputBorder(
+                contentPadding:
+                    const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                   borderSide: BorderSide.none,
                 ),
@@ -118,7 +119,7 @@ class _SignInState extends State<SignIn> {
                 }
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 25.0,
             ),
             TextFormField(
@@ -130,8 +131,9 @@ class _SignInState extends State<SignIn> {
               //keyboardType: TextInputType.visiblePassword,
               controller: _passwordController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                border: OutlineInputBorder(
+                contentPadding:
+                    const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                   borderSide: BorderSide.none,
                 ),
@@ -162,6 +164,20 @@ class _SignInState extends State<SignIn> {
                 height: 50,
                 child: ElevatedButton(
                   focusNode: f3,
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      showLoaderDialog(context);
+                      _signInWithEmailAndPassword();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.indigo[900],
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
                   child: Text(
                     "Sign In",
                     style: GoogleFonts.lato(
@@ -170,25 +186,11 @@ class _SignInState extends State<SignIn> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      showLoaderDialog(context);
-                      _signInWithEmailAndPassword();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 2,
-                    primary: Colors.indigo[900],
-                    onPrimary: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32.0),
-                    ),
-                  ),
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: TextButton(
                 style: ButtonStyle(
                     overlayColor:
@@ -205,7 +207,7 @@ class _SignInState extends State<SignIn> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -214,14 +216,14 @@ class _SignInState extends State<SignIn> {
                         color: Colors.red[700],
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         FlutterIcons.google_ant,
                         color: Colors.white,
                       ),
                       onPressed: () {},
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Container(
@@ -229,7 +231,7 @@ class _SignInState extends State<SignIn> {
                         color: Colors.blue[900],
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         FlutterIcons.facebook_f_faw,
                         color: Colors.white,
                       ),
@@ -257,7 +259,7 @@ class _SignInState extends State<SignIn> {
                       style: ButtonStyle(
                           overlayColor:
                               MaterialStateProperty.all(Colors.transparent)),
-                      onPressed: () => _pushPage(context, Register()),
+                      onPressed: () => _pushPage(context, const Register()),
                       child: Text(
                         'Signup here',
                         style: GoogleFonts.lato(
@@ -286,11 +288,12 @@ class _SignInState extends State<SignIn> {
 
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
-      content: new Row(
+      content: Row(
         children: [
-          CircularProgressIndicator(),
+          const CircularProgressIndicator(),
           Container(
-              margin: EdgeInsets.only(left: 15), child: Text("Loading...")),
+              margin: const EdgeInsets.only(left: 15),
+              child: const Text("Loading...")),
         ],
       ),
     );
@@ -328,7 +331,7 @@ class _SignInState extends State<SignIn> {
     } catch (e) {
       final snackBar = SnackBar(
         content: Row(
-          children: [
+          children: const [
             Icon(
               Icons.info_outline,
               color: Colors.white,

@@ -1,16 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/firestore-data/searchList.dart';
 
 class DoctorsList extends StatefulWidget {
+  const DoctorsList({Key? key}) : super(key: key);
+
   @override
-  _DoctorsListState createState() => _DoctorsListState();
+  State<DoctorsList> createState() => _DoctorsListState();
 }
 
 class _DoctorsListState extends State<DoctorsList> {
-  TextEditingController _textController = new TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   var search;
   var _length = 0;
 
@@ -32,17 +33,17 @@ class _DoctorsListState extends State<DoctorsList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Find Doctors'),
+        title: const Text('Find Doctors'),
         actions: <Widget>[
           SafeArea(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
               width: MediaQuery.of(context).size.width,
               child: TextFormField(
                 controller: _textController,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                      const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
@@ -55,7 +56,7 @@ class _DoctorsListState extends State<DoctorsList> {
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                   ),
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     FlutterIcons.search1_ant,
                     size: 20,
                   ),
@@ -70,12 +71,12 @@ class _DoctorsListState extends State<DoctorsList> {
                               _length = search.length;
                             });
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.close_rounded,
                             size: 20,
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ),
                 // onFieldSubmitted: (String _searchKey) {
                 //   setState(
@@ -88,7 +89,6 @@ class _DoctorsListState extends State<DoctorsList> {
                 onChanged: (String _searchKey) {
                   setState(
                     () {
-                      print('>>>' + _searchKey);
                       search = _searchKey;
                       _length = search.length;
                     },
@@ -106,7 +106,7 @@ class _DoctorsListState extends State<DoctorsList> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: _length == 0
             ? Center(
                 child: Container(
@@ -127,7 +127,7 @@ class _DoctorsListState extends State<DoctorsList> {
                           ),
                         ),
                       ),
-                      Image(image: AssetImage('assets/search-bg.png')),
+                      const Image(image: AssetImage('assets/search-bg.png')),
                     ],
                   ),
                 ),

@@ -1,10 +1,8 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:health_and_doctor_appointment/firestore-data/appointmentHistoryList.dart';
 import 'package:health_and_doctor_appointment/screens/userSettings.dart';
 
@@ -12,12 +10,12 @@ class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
   @override
-  _UserProfileState createState() => _UserProfileState();
+  State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
 
   Future<void> _getUser() async {
@@ -40,7 +38,7 @@ class _UserProfileState extends State<UserProfile> {
             return true;
           },
           child: ListView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
               Stack(
@@ -49,7 +47,7 @@ class _UserProfileState extends State<UserProfile> {
                   Column(
                     children: [
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -62,10 +60,10 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         height: MediaQuery.of(context).size.height / 5,
                         child: Container(
-                          padding: EdgeInsets.only(top: 10, right: 7),
+                          padding: const EdgeInsets.only(top: 10, right: 7),
                           alignment: Alignment.topRight,
                           child: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               FlutterIcons.gear_faw,
                               color: Colors.white,
                               size: 20,
@@ -74,7 +72,7 @@ class _UserProfileState extends State<UserProfile> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UserSettings(),
+                                  builder: (context) => const UserSettings(),
                                 ),
                               );
                             },
@@ -84,7 +82,7 @@ class _UserProfileState extends State<UserProfile> {
                       Container(
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height / 5,
-                        padding: EdgeInsets.only(top: 75),
+                        padding: const EdgeInsets.only(top: 75),
                         child: Text(
                           user.displayName ?? "Not Added",
                           style: GoogleFonts.lato(
@@ -96,23 +94,23 @@ class _UserProfileState extends State<UserProfile> {
                     ],
                   ),
                   Container(
-                    child: CircleAvatar(
-                      radius: 80,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage('assets/person.jpg'),
-                    ),
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.teal[50]!.withOpacity(1),
                           width: 5,
                         ),
                         shape: BoxShape.circle),
+                    child: const CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage('assets/person.jpg'),
+                    ),
                   ),
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                padding: EdgeInsets.only(left: 20),
+                margin: const EdgeInsets.only(left: 15, right: 15),
+                padding: const EdgeInsets.only(left: 20),
                 height: MediaQuery.of(context).size.height / 7,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -131,14 +129,14 @@ class _UserProfileState extends State<UserProfile> {
                             height: 27,
                             width: 27,
                             color: Colors.red[900],
-                            child: Icon(
+                            child: const Icon(
                               Icons.mail_rounded,
                               color: Colors.white,
                               size: 16,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -151,7 +149,7 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -163,14 +161,14 @@ class _UserProfileState extends State<UserProfile> {
                             height: 27,
                             width: 27,
                             color: Colors.blue[800],
-                            child: Icon(
+                            child: const Icon(
                               Icons.phone,
                               color: Colors.white,
                               size: 16,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -187,8 +185,8 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 20),
-                padding: EdgeInsets.only(left: 20, top: 20),
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                padding: const EdgeInsets.only(left: 20, top: 20),
                 height: MediaQuery.of(context).size.height / 7,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -205,14 +203,14 @@ class _UserProfileState extends State<UserProfile> {
                             height: 27,
                             width: 27,
                             color: Colors.indigo[600],
-                            child: Icon(
+                            child: const Icon(
                               FlutterIcons.pencil_ent,
                               color: Colors.white,
                               size: 16,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -232,8 +230,8 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 20),
-                padding: EdgeInsets.only(left: 20, top: 20),
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                padding: const EdgeInsets.only(left: 20, top: 20),
                 height: MediaQuery.of(context).size.height / 5,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -250,14 +248,14 @@ class _UserProfileState extends State<UserProfile> {
                             height: 27,
                             width: 27,
                             color: Colors.green[900],
-                            child: Icon(
+                            child: const Icon(
                               FlutterIcons.history_faw,
                               color: Colors.white,
                               size: 16,
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -270,27 +268,27 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.only(right: 10),
                             alignment: Alignment.centerRight,
                             child: SizedBox(
                               height: 30,
                               child: TextButton(
                                 onPressed: () {},
-                                child: Text('View all'),
+                                child: const Text('View all'),
                               ),
                             ),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Expanded(
                       child: Scrollbar(
                         child: Container(
-                          padding: EdgeInsets.only(left: 35, right: 15),
-                          child: SingleChildScrollView(
+                          padding: const EdgeInsets.only(left: 35, right: 15),
+                          child: const SingleChildScrollView(
                             child: AppointmentHistoryList(),
                           ),
                         ),
@@ -299,7 +297,7 @@ class _UserProfileState extends State<UserProfile> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],
@@ -316,16 +314,17 @@ class _UserProfileState extends State<UserProfile> {
           .doc(user.uid)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center(
+        if (!snapshot.hasData) {
+          return const Center(
             child: CircularProgressIndicator(),
           );
-        var userData = snapshot.data;
+        }
+        var userData = snapshot.data as Map;
         return Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(top: 10, left: 40),
+          padding: const EdgeInsets.only(top: 10, left: 40),
           child: Text(
-            userData!['bio'] == null ? "No Bio" : userData['bio'],
+            userData['bio'] ?? "No Bio",
             style: GoogleFonts.lato(
               fontSize: 16,
               fontWeight: FontWeight.w500,

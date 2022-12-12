@@ -1,18 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/screens/signIn.dart';
 
 class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
+
   @override
-  _RegisterState createState() => _RegisterState();
+  State<Register> createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _displayName = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -20,10 +21,10 @@ class _RegisterState extends State<Register> {
   final TextEditingController _passwordConfirmController =
       TextEditingController();
 
-  FocusNode f1 = new FocusNode();
-  FocusNode f2 = new FocusNode();
-  FocusNode f3 = new FocusNode();
-  FocusNode f4 = new FocusNode();
+  FocusNode f1 = FocusNode();
+  FocusNode f2 = FocusNode();
+  FocusNode f3 = FocusNode();
+  FocusNode f4 = FocusNode();
 
   var _isSuccess;
 
@@ -49,7 +50,7 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
+                    padding: const EdgeInsets.fromLTRB(10, 40, 10, 10),
                     child: _signUp(),
                   ),
                 ],
@@ -69,11 +70,11 @@ class _RegisterState extends State<Register> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 50),
+              padding: const EdgeInsets.only(bottom: 50),
               child: Text(
                 'Sign up',
                 style: GoogleFonts.lato(
@@ -91,8 +92,9 @@ class _RegisterState extends State<Register> {
               keyboardType: TextInputType.emailAddress,
               controller: _displayName,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                border: OutlineInputBorder(
+                contentPadding:
+                    const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                   borderSide: BorderSide.none,
                 ),
@@ -115,7 +117,7 @@ class _RegisterState extends State<Register> {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 25.0,
             ),
             TextFormField(
@@ -127,8 +129,9 @@ class _RegisterState extends State<Register> {
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                border: OutlineInputBorder(
+                contentPadding:
+                    const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                   borderSide: BorderSide.none,
                 ),
@@ -157,7 +160,7 @@ class _RegisterState extends State<Register> {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 25.0,
             ),
             TextFormField(
@@ -169,8 +172,9 @@ class _RegisterState extends State<Register> {
               //keyboardType: TextInputType.visiblePassword,
               controller: _passwordController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                border: OutlineInputBorder(
+                contentPadding:
+                    const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                   borderSide: BorderSide.none,
                 ),
@@ -201,7 +205,7 @@ class _RegisterState extends State<Register> {
               },
               obscureText: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 25.0,
             ),
             TextFormField(
@@ -212,8 +216,9 @@ class _RegisterState extends State<Register> {
               ),
               controller: _passwordConfirmController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                border: OutlineInputBorder(
+                contentPadding:
+                    const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(90.0)),
                   borderSide: BorderSide.none,
                 ),
@@ -247,6 +252,20 @@ class _RegisterState extends State<Register> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      showLoaderDialog(context);
+                      _registerAccount();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.indigo[900],
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
                   child: Text(
                     "Sign In",
                     style: GoogleFonts.lato(
@@ -255,32 +274,18 @@ class _RegisterState extends State<Register> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      showLoaderDialog(context);
-                      _registerAccount();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 2,
-                    primary: Colors.indigo[900],
-                    onPrimary: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32.0),
-                    ),
-                  ),
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 25, left: 10, right: 10),
+              padding: const EdgeInsets.only(top: 25, left: 10, right: 10),
               width: MediaQuery.of(context).size.width,
-              child: Divider(
+              child: const Divider(
                 thickness: 1.5,
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 25),
+              padding: const EdgeInsets.only(top: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -289,14 +294,14 @@ class _RegisterState extends State<Register> {
                         color: Colors.red[700],
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         FlutterIcons.google_ant,
                         color: Colors.white,
                       ),
                       onPressed: () {},
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Container(
@@ -304,7 +309,7 @@ class _RegisterState extends State<Register> {
                         color: Colors.blue[900],
                         borderRadius: BorderRadius.circular(32)),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         FlutterIcons.facebook_f_faw,
                         color: Colors.white,
                       ),
@@ -394,11 +399,12 @@ class _RegisterState extends State<Register> {
 
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
-      content: new Row(
+      content: Row(
         children: [
-          CircularProgressIndicator(),
+          const CircularProgressIndicator(),
           Container(
-              margin: EdgeInsets.only(left: 15), child: Text("Loading...")),
+              margin: const EdgeInsets.only(left: 15),
+              child: const Text("Loading...")),
         ],
       ),
     );

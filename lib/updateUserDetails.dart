@@ -10,13 +10,13 @@ class UpdateUserDetails extends StatefulWidget {
       : super(key: key);
 
   @override
-  _UpdateUserDetailsState createState() => _UpdateUserDetailsState();
+  State<UpdateUserDetails> createState() => _UpdateUserDetailsState();
 }
 
 class _UpdateUserDetailsState extends State<UpdateUserDetails> {
-  TextEditingController _textcontroller = TextEditingController();
-  FocusNode f1 = new FocusNode();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _textcontroller = TextEditingController();
+  FocusNode f1 = FocusNode();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
   var UserID;
 
@@ -41,7 +41,7 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.indigo,
           ),
@@ -70,31 +70,32 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
               builder: (context, snapshot) {
                 var userData = snapshot.data;
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
                     controller: _textcontroller,
                     style: GoogleFonts.lato(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                    onFieldSubmitted: (String _data) {
-                      _textcontroller.text = _data;
+                    onFieldSubmitted: (String data) {
+                      _textcontroller.text = data;
                     },
                     textInputAction: TextInputAction.done,
                     validator: (value) {
-                      if (value!.isEmpty)
-                        return 'Please Enter the ' + widget.label;
+                      if (value!.isEmpty) {
+                        return 'Please Enter the ${widget.label}';
+                      }
                       return null;
                     },
                   ),
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               height: 50,
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
@@ -103,9 +104,9 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
                   updateData();
                 },
                 style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.indigo.withOpacity(0.9),
                   elevation: 2,
-                  primary: Colors.indigo.withOpacity(0.9),
-                  onPrimary: Colors.black,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0),
                   ),

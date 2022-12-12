@@ -10,7 +10,7 @@ class BookingScreen extends StatefulWidget {
 
   const BookingScreen({Key? key, required this.doctor}) : super(key: key);
   @override
-  _BookingScreenState createState() => _BookingScreenState();
+  State<BookingScreen> createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> {
@@ -35,7 +35,7 @@ class _BookingScreenState extends State<BookingScreen> {
   var dateUTC;
   var date_Time;
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
 
   Future<void> _getUser() async {
@@ -149,7 +149,7 @@ class _BookingScreenState extends State<BookingScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black,
         ),
       ),
@@ -163,24 +163,24 @@ class _BookingScreenState extends State<BookingScreen> {
             shrinkWrap: true,
             children: [
               Container(
-                child: Image(
+                child: const Image(
                   image: AssetImage('assets/appointment.jpg'),
                   height: 250,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Form(
                 key: _formKey,
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  padding: EdgeInsets.only(top: 0),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(top: 0),
                   child: Column(
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 16),
+                        padding: const EdgeInsets.only(left: 16),
                         child: Text(
                           'Enter Patient Details',
                           style: GoogleFonts.lato(
@@ -190,23 +190,24 @@ class _BookingScreenState extends State<BookingScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextFormField(
                         controller: _nameController,
                         focusNode: f1,
                         validator: (value) {
-                          if (value!.isEmpty)
+                          if (value!.isEmpty) {
                             return 'Please Enter Patient Name';
+                          }
                           return null;
                         },
                         style: GoogleFonts.lato(
                             fontSize: 18, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                          border: OutlineInputBorder(
+                          contentPadding: const EdgeInsets.only(
+                              left: 20, top: 10, bottom: 10),
+                          border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(90.0)),
                             borderSide: BorderSide.none,
@@ -226,7 +227,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         },
                         textInputAction: TextInputAction.next,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -236,9 +237,9 @@ class _BookingScreenState extends State<BookingScreen> {
                         style: GoogleFonts.lato(
                             fontSize: 18, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                          border: OutlineInputBorder(
+                          contentPadding: const EdgeInsets.only(
+                              left: 20, top: 10, bottom: 10),
+                          border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(90.0)),
                             borderSide: BorderSide.none,
@@ -266,7 +267,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         },
                         textInputAction: TextInputAction.next,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -277,9 +278,9 @@ class _BookingScreenState extends State<BookingScreen> {
                         style: GoogleFonts.lato(
                             fontSize: 18, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                          border: OutlineInputBorder(
+                          contentPadding: const EdgeInsets.only(
+                              left: 20, top: 10, bottom: 10),
+                          border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(90.0)),
                             borderSide: BorderSide.none,
@@ -299,7 +300,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         },
                         textInputAction: TextInputAction.next,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -311,9 +312,9 @@ class _BookingScreenState extends State<BookingScreen> {
                         style: GoogleFonts.lato(
                             fontSize: 18, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                          border: OutlineInputBorder(
+                          contentPadding: const EdgeInsets.only(
+                              left: 20, top: 10, bottom: 10),
+                          border: const OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(90.0)),
                             borderSide: BorderSide.none,
@@ -328,7 +329,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Container(
@@ -341,12 +342,12 @@ class _BookingScreenState extends State<BookingScreen> {
                             TextFormField(
                               focusNode: f4,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(
+                                contentPadding: const EdgeInsets.only(
                                   left: 20,
                                   top: 10,
                                   bottom: 10,
                                 ),
-                                border: OutlineInputBorder(
+                                border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(90.0)),
                                   borderSide: BorderSide.none,
@@ -362,8 +363,9 @@ class _BookingScreenState extends State<BookingScreen> {
                               ),
                               controller: _dateController,
                               validator: (value) {
-                                if (value!.isEmpty)
+                                if (value!.isEmpty) {
                                   return 'Please Enter the Date';
+                                }
                                 return null;
                               },
                               onFieldSubmitted: (String value) {
@@ -381,7 +383,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                   color: Colors.indigo, // button color
                                   child: InkWell(
                                     // inkwell color
-                                    child: SizedBox(
+                                    child: const SizedBox(
                                       width: 40,
                                       height: 40,
                                       child: Icon(
@@ -399,7 +401,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Container(
@@ -412,12 +414,12 @@ class _BookingScreenState extends State<BookingScreen> {
                             TextFormField(
                               focusNode: f5,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.only(
+                                contentPadding: const EdgeInsets.only(
                                   left: 20,
                                   top: 10,
                                   bottom: 10,
                                 ),
-                                border: OutlineInputBorder(
+                                border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(90.0)),
                                   borderSide: BorderSide.none,
@@ -433,8 +435,9 @@ class _BookingScreenState extends State<BookingScreen> {
                               ),
                               controller: _timeController,
                               validator: (value) {
-                                if (value!.isEmpty)
+                                if (value!.isEmpty) {
                                   return 'Please Enter the Time';
+                                }
                                 return null;
                               },
                               onFieldSubmitted: (String value) {
@@ -451,7 +454,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                   color: Colors.indigo, // button color
                                   child: InkWell(
                                     // inkwell color
-                                    child: SizedBox(
+                                    child: const SizedBox(
                                       width: 40,
                                       height: 40,
                                       child: Icon(
@@ -469,26 +472,23 @@ class _BookingScreenState extends State<BookingScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
-                      Container(
+                      SizedBox(
                         height: 50,
                         width: MediaQuery.of(context).size.width,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.indigo,
                             elevation: 2,
-                            primary: Colors.indigo,
-                            onPrimary: Colors.black,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(32.0),
                             ),
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              print(_nameController.text);
-                              print(_dateController.text);
-                              print(widget.doctor);
                               showAlertDialog(context);
                               _createAppointment();
                             }
@@ -503,7 +503,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                     ],
@@ -518,7 +518,6 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   Future<void> _createAppointment() async {
-    print(dateUTC + ' ' + date_Time + ':00');
     FirebaseFirestore.instance
         .collection('appointments')
         .doc(user.email)

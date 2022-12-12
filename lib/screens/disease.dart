@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:health_and_doctor_appointment/screens/diseasedetail.dart';
 
 class Disease extends StatefulWidget {
+  const Disease({Key? key}) : super(key: key);
+
   @override
-  _DiseaseState createState() => _DiseaseState();
+  State<Disease> createState() => _DiseaseState();
 }
 
 class _DiseaseState extends State<Disease> {
@@ -23,7 +24,7 @@ class _DiseaseState extends State<Disease> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black,
           ),
         ),
@@ -35,18 +36,19 @@ class _DiseaseState extends State<Disease> {
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
               return ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: snapshot.data!.docs.map((document) {
                   return Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 0),
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 0),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 10,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
                         color: Colors.black87,
@@ -64,7 +66,7 @@ class _DiseaseState extends State<Disease> {
                         },
                         child: Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Column(
