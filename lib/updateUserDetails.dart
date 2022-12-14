@@ -127,12 +127,15 @@ class _UpdateUserDetailsState extends State<UpdateUserDetails> {
   }
 
   Future<void> updateData() async {
+    User userObject = user;
     FirebaseFirestore.instance.collection('users').doc(UserID).set({
       widget.field: _textcontroller.text,
     }, SetOptions(merge: true));
     if (widget.field.compareTo('name') == 0) {
-      await user.updateProfile(displayName: _textcontroller.text);
+      await userObject.updateDisplayName(_textcontroller.text);
     }
-    if (widget.field.compareTo('phone') == 0) {}
+    if (widget.field.compareTo('phone') == 0) {
+      // await userObject.updatePhoneNumber(_textcontroller.text);
+    }
   }
 }
