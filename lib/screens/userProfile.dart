@@ -313,13 +313,14 @@ class _UserProfileState extends State<UserProfile> {
           .collection('users')
           .doc(user.uid)
           .snapshots(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        var userData = snapshot.data as Map;
+        var userData =
+            snapshot.data!.data != null ? snapshot.data!.data() as Map : Map();
         return Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(top: 10, left: 40),

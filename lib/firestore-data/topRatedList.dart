@@ -26,11 +26,37 @@ class _TopRatedListState extends State<TopRatedList> {
               child: CircularProgressIndicator(),
             );
           }
+          if (snapshot.data!.docs.length < 1) {
+            return Center(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No Doctor found!',
+                      style: GoogleFonts.lato(
+                        color: Colors.blue[800],
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Image(
+                      image: AssetImage('assets/error-404.jpg'),
+                      height: 250,
+                      width: 250,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
           return ListView.builder(
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount:
+                snapshot.data!.docs.length > 5 ? 5 : snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               DocumentSnapshot doctor = snapshot.data!.docs[index];
               return Padding(

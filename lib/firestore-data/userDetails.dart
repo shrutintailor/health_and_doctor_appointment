@@ -50,12 +50,14 @@ class _UserDetailsState extends State<UserDetails> {
             .collection('users')
             .doc(user.uid)
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (!snapshot.hasData)
             return Center(
               child: CircularProgressIndicator(),
             );
-          var userData = snapshot.data as Map;
+          var userData = snapshot.data!.data != null
+              ? snapshot.data!.data() as Map
+              : Map();
           return ListView(
             scrollDirection: Axis.vertical,
             physics: ClampingScrollPhysics(),
@@ -97,9 +99,7 @@ class _UserDetailsState extends State<UserDetails> {
                             ),
                           ),
                           Text(
-                            userData[value[index]].isEmpty ?? true
-                                ? 'Not Added'
-                                : userData[value[index]],
+                            userData[value[index]] ?? 'Not Added',
                             style: GoogleFonts.lato(
                               color: Colors.black54,
                               fontSize: 15,

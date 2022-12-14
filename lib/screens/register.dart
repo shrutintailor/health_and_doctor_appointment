@@ -441,9 +441,9 @@ class _RegisterState extends State<Register> {
         if (!user.emailVerified) {
           await user.sendEmailVerification();
         }
-        await user.updateProfile(displayName: _displayName.text);
+        await user.updateDisplayName(_displayName.text);
 
-        FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'name': _displayName.text,
           'birthDate': null,
           'email': user.email,

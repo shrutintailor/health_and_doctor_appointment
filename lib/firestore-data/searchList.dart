@@ -15,6 +15,12 @@ class SearchList extends StatefulWidget {
 class _SearchListState extends State<SearchList> {
   @override
   Widget build(BuildContext context) {
+    List<String> searchString = [''];
+    List<String> searchStringWithReg = ['' + '\uf8ff'];
+    if (widget.searchKey != null && widget.searchKey != '') {
+      searchString = ['Dr. ${widget.searchKey}'];
+      searchStringWithReg = ['Dr. ${widget.searchKey}\uf8ff'];
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -22,8 +28,8 @@ class _SearchListState extends State<SearchList> {
           stream: FirebaseFirestore.instance
               .collection('doctors')
               .orderBy('name')
-              .startAt(['Dr. ${widget.searchKey}']).endAt(
-                  ['Dr. ${widget.searchKey}\uf8ff']).snapshots(),
+              .startAt(searchString)
+              .endAt([searchStringWithReg]).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {

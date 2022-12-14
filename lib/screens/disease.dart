@@ -40,6 +40,31 @@ class _DiseaseState extends State<Disease> {
                   child: CircularProgressIndicator(),
                 );
               }
+              if (snapshot.data!.docs.length < 1) {
+                return Center(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No Data found!',
+                          style: GoogleFonts.lato(
+                            color: Colors.blue[800],
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Image(
+                          image: AssetImage('assets/error-404.jpg'),
+                          height: 250,
+                          width: 250,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
               return ListView(
                 physics: const BouncingScrollPhysics(),
                 children: snapshot.data!.docs.map((document) {
