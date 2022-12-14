@@ -2,7 +2,7 @@
     package="com.example.health_and_doctor_appointment">
    <application
         android:label="health_and_doctor_appointment"
-        android:name="${applicationName}"
+        android:name="Medic.ly"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

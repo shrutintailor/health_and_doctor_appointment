@@ -207,41 +207,6 @@ class _SignInState extends State<SignIn> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(top: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.red[700],
-                        borderRadius: BorderRadius.circular(32)),
-                    child: IconButton(
-                      icon: const Icon(
-                        FlutterIcons.google_ant,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.blue[900],
-                        borderRadius: BorderRadius.circular(32)),
-                    child: IconButton(
-                      icon: const Icon(
-                        FlutterIcons.facebook_f_faw,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 18.0),
                 child: Row(
