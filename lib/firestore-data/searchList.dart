@@ -18,8 +18,8 @@ class _SearchListState extends State<SearchList> {
     List<String> searchString = [''];
     List<String> searchStringWithReg = ['' + '\uf8ff'];
     if (widget.searchKey != null && widget.searchKey != '') {
-      searchString = ['Dr. ${widget.searchKey}'];
-      searchStringWithReg = ['Dr. ${widget.searchKey}\uf8ff'];
+      searchString = ['${widget.searchKey}'];
+      searchStringWithReg = ['${widget.searchKey}\uf8ff'];
     }
     return Scaffold(
       backgroundColor: Colors.white,
