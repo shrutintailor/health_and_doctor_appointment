@@ -6,7 +6,9 @@ import 'package:typicons_flutter/typicons_flutter.dart';
 
 class SearchList extends StatefulWidget {
   final String searchKey;
-  const SearchList({Key? key, required this.searchKey}) : super(key: key);
+  final bool showAppBar;
+  const SearchList({Key? key, this.showAppBar = false, required this.searchKey})
+      : super(key: key);
 
   @override
   State<SearchList> createState() => _SearchListState();
@@ -15,21 +17,35 @@ class SearchList extends StatefulWidget {
 class _SearchListState extends State<SearchList> {
   @override
   Widget build(BuildContext context) {
-    List<String> searchString = [''];
-    List<String> searchStringWithReg = ['' + '\uf8ff'];
-    if (widget.searchKey != null && widget.searchKey != '') {
-      searchString = ['${widget.searchKey}'];
-      searchStringWithReg = ['${widget.searchKey}\uf8ff'];
-    }
+    List finalData = [];
     return Scaffold(
+      appBar: widget.showAppBar
+          ? AppBar(
+              title: Text(
+                'Search Result',
+                style: TextStyle(color: Colors.indigo),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.chevron_left_sharp,
+                  color: Colors.indigo,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            )
+          : null,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('doctors')
               .orderBy('name')
-              .startAt(searchString)
-              .endAt([searchStringWithReg]).snapshots(),
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -37,7 +53,18 @@ class _SearchListState extends State<SearchList> {
                 child: CircularProgressIndicator(),
               );
             }
-            return snapshot.data!.size == 0
+            if (snapshot.data!.size != 0) {
+              finalData = [];
+              for (var i = 0; i < snapshot.data!.size; i++) {
+                if (snapshot.data!.docs[i]['name']
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.searchKey.toString().toLowerCase())) {
+                  finalData.add(snapshot.data!.docs[i]);
+                }
+              }
+            }
+            return finalData.isEmpty
                 ? Center(
                     child: Container(
                       child: Column(
@@ -66,9 +93,9 @@ class _SearchListState extends State<SearchList> {
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: snapshot.data!.size,
+                      itemCount: finalData.length,
                       itemBuilder: (context, index) {
-                        DocumentSnapshot doctor = snapshot.data!.docs[index];
+                        DocumentSnapshot doctor = finalData[index];
                         return Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: Card(

@@ -175,7 +175,23 @@ class _HomePageState extends State<HomePage> {
                             splashRadius: 20,
                             color: Colors.white,
                             icon: const Icon(FlutterIcons.search1_ant),
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(
+                                () {
+                                  _doctorName.text.length == 0
+                                      ? Container()
+                                      : Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SearchList(
+                                              searchKey: _doctorName.text,
+                                              showAppBar: true,
+                                            ),
+                                          ),
+                                        );
+                                },
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -193,6 +209,7 @@ class _HomePageState extends State<HomePage> {
                                     MaterialPageRoute(
                                       builder: (context) => SearchList(
                                         searchKey: value,
+                                        showAppBar: true,
                                       ),
                                     ),
                                   );
