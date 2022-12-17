@@ -269,7 +269,8 @@ class _RegisterState extends State<Register> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 170),
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width * 0.35),
                       child: Text(
                         "Register as doctor?",
                         style: GoogleFonts.lato(
@@ -454,36 +455,22 @@ class _RegisterState extends State<Register> {
           await user.sendEmailVerification();
         }
         await user.updateDisplayName(_displayName.text);
-
-        if (!registerAsDoctor) {
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .set({
-            'name': _displayName.text,
-            'birthDate': null,
-            'email': user.email,
-            'phone': null,
-            'bio': null,
-            'city': null,
-          }, SetOptions(merge: true));
-        } else {
-          await FirebaseFirestore.instance
-              .collection('doctors')
-              .doc(user.uid)
-              .set({
-            'image': null,
-            'name': _displayName.text,
-            'type': null,
-            'rating': 0,
-            'specification': null,
-            'address': null,
-            'phone': null,
-            'email': user.email,
-            'openHour': null,
-            'closeHour': null,
-          }, SetOptions(merge: true));
-        }
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'image': 'https://www.w3schools.com/howto/img_avatar.png',
+          'birthDate': '',
+          'name': _displayName.text,
+          'type': '',
+          'rating': 0,
+          'specification': '',
+          'address': '',
+          'phone': '',
+          'email': user.email,
+          'openHour': '',
+          'closeHour': '',
+          'bio': '',
+          'city': '',
+          'role': registerAsDoctor ? 'doctor' : 'patient',
+        }, SetOptions(merge: true));
 
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);

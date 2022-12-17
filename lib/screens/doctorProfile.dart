@@ -78,7 +78,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           height: 20,
                         ),
                         Text(
-                          document['name'],
+                          document['name'] ?? 'Not Added',
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.bold,
                             fontSize: 24,
@@ -88,7 +88,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           height: 10,
                         ),
                         Text(
-                          document['type'],
+                          document['type'] ?? 'Not Added',
                           style: GoogleFonts.lato(
                               //fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -122,7 +122,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           padding: const EdgeInsets.only(left: 22, right: 22),
                           alignment: Alignment.center,
                           child: Text(
-                            document['specification'],
+                            document['specification'] ?? 'Not Added',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.lato(
                               fontSize: 14,
@@ -150,7 +150,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.4,
                                 child: Text(
-                                  document['address'],
+                                  document['address'] ?? 'Not Added',
                                   style: GoogleFonts.lato(
                                     fontSize: 16,
                                   ),
@@ -162,8 +162,10 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 16,
+                        ),
                         Container(
-                          height: MediaQuery.of(context).size.height / 12,
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
@@ -178,7 +180,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 onPressed: () =>
                                     _launchCaller("tel: ${document['phone']}"),
                                 child: Text(
-                                  document['phone'].toString(),
+                                  document['phone'] != ''
+                                      ? document['phone'].toString()
+                                      : 'Not Added',
                                   style: GoogleFonts.lato(
                                       fontSize: 16, color: Colors.blue),
                                 ),
@@ -190,7 +194,40 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           ),
                         ),
                         const SizedBox(
-                          height: 0,
+                          height: 16,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              const Icon(FlutterIcons.email_outline_mco),
+                              const SizedBox(
+                                width: 11,
+                              ),
+                              TextButton(
+                                onPressed: document['email'] != ''
+                                    ? () => _launchCaller(
+                                        "mailto: ${document['email']}")
+                                    : null,
+                                child: Text(
+                                  document['email'] != ''
+                                      ? document['email'].toString()
+                                      : 'Not Added',
+                                  style: GoogleFonts.lato(
+                                      fontSize: 16, color: Colors.blue),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -231,9 +268,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 width: 10,
                               ),
                               Text(
-                                document['openHour'] +
-                                    " - " +
-                                    document['closeHour'],
+                                document['openHour'] ??
+                                    'Not Added' +
+                                        " - " +
+                                        document['closeHour'] ??
+                                    'Not Added',
                                 style: GoogleFonts.lato(
                                   fontSize: 17,
                                 ),

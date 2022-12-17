@@ -117,7 +117,7 @@ class _SearchListState extends State<SearchList> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DoctorProfile(
-                                        doctor: doctor['name'],
+                                        doctor: doctor['name'] ?? 'Not added',
                                       ),
                                     ),
                                   );
@@ -150,7 +150,7 @@ class _SearchListState extends State<SearchList> {
                                           ),
                                         ),
                                         Text(
-                                          doctor['type'],
+                                          doctor['type'] ?? 'Not added',
                                           style: GoogleFonts.lato(
                                               fontSize: 16,
                                               color: Colors.black54),
@@ -178,7 +178,9 @@ class _SearchListState extends State<SearchList> {
                                               width: 3,
                                             ),
                                             Text(
-                                              doctor['rating'].toString(),
+                                              doctor['rating']
+                                                  ? doctor['rating'].toString()
+                                                  : 'Not added',
                                               style: GoogleFonts.lato(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 15,

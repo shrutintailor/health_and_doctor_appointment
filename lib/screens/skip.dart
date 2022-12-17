@@ -113,6 +113,7 @@ class _SkipState extends State<Skip> {
           ),
         ),
         onDone: () => _pushPage(context, const FireBaseAuth()),
+        onSkip: () => _pushPage(context, const FireBaseAuth()),
       ),
     );
   }
