@@ -25,6 +25,7 @@ class _RegisterState extends State<Register> {
   FocusNode f2 = FocusNode();
   FocusNode f3 = FocusNode();
   FocusNode f4 = FocusNode();
+  bool registerAsDoctor = false;
 
   var _isSuccess;
 
@@ -33,6 +34,18 @@ class _RegisterState extends State<Register> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void toggleSwitch(bool value) {
+    if (registerAsDoctor == false) {
+      setState(() {
+        registerAsDoctor = true;
+      });
+    } else {
+      setState(() {
+        registerAsDoctor = false;
+      });
+    }
   }
 
   @override
@@ -251,6 +264,40 @@ class _RegisterState extends State<Register> {
               child: SizedBox(
                 width: double.infinity,
                 height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 170),
+                      child: Text(
+                        "Register as doctor?",
+                        style: GoogleFonts.lato(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    Transform.scale(
+                      scale: 2,
+                      child: Switch(
+                        onChanged: toggleSwitch,
+                        value: registerAsDoctor,
+                        activeColor: Colors.indigo[900],
+                        activeTrackColor: Colors.indigo[300],
+                        inactiveThumbColor: Colors.indigo[900],
+                        inactiveTrackColor: Colors.grey[350],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(top: 25.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -408,14 +455,35 @@ class _RegisterState extends State<Register> {
         }
         await user.updateDisplayName(_displayName.text);
 
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'name': _displayName.text,
-          'birthDate': null,
-          'email': user.email,
-          'phone': null,
-          'bio': null,
-          'city': null,
-        }, SetOptions(merge: true));
+        if (!registerAsDoctor) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set({
+            'name': _displayName.text,
+            'birthDate': null,
+            'email': user.email,
+            'phone': null,
+            'bio': null,
+            'city': null,
+          }, SetOptions(merge: true));
+        } else {
+          await FirebaseFirestore.instance
+              .collection('doctors')
+              .doc(user.uid)
+              .set({
+            'image': null,
+            'name': _displayName.text,
+            'type': null,
+            'rating': 0,
+            'specification': null,
+            'address': null,
+            'phone': null,
+            'email': user.email,
+            'openHour': null,
+            'closeHour': null,
+          }, SetOptions(merge: true));
+        }
 
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);

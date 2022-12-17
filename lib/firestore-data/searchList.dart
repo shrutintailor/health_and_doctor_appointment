@@ -21,21 +21,23 @@ class _SearchListState extends State<SearchList> {
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
+              backgroundColor: Colors.white,
+              leading: IconButton(
+                  splashRadius: 20,
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.indigo,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
               title: Text(
                 'Search Result',
-                style: TextStyle(color: Colors.indigo),
-              ),
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.chevron_left_sharp,
+                style: GoogleFonts.lato(
                   color: Colors.indigo,
-                  size: 30,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
               ),
             )
           : null,
