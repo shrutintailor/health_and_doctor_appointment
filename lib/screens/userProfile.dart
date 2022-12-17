@@ -115,10 +115,13 @@ class _UserProfileState extends State<UserProfile> {
                               width: 5,
                             ),
                             shape: BoxShape.circle),
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 80,
                           backgroundColor: Colors.white,
-                          backgroundImage: AssetImage('assets/person.jpg'),
+                          backgroundImage: NetworkImage(
+                            userData['image'],
+                            scale: 1,
+                          ),
                         ),
                       ),
                     ],

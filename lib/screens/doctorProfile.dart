@@ -29,7 +29,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
       body: SafeArea(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('doctors')
+              .collection('users')
+              .where('role', isEqualTo: 'doctor')
               .orderBy('name')
               .startAt([widget.doctor]).endAt(
                   ['${widget.doctor}\uf8ff']).snapshots(),
@@ -70,7 +71,10 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           ),
                         ),
                         CircleAvatar(
-                          backgroundImage: NetworkImage(document['image']),
+                          backgroundImage: NetworkImage(
+                            document['image'],
+                            scale: 1,
+                          ),
                           //backgroundColor: Colors.lightBlue[100],
                           radius: 80,
                         ),

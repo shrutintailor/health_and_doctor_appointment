@@ -34,7 +34,8 @@ class _ExploreListState extends State<ExploreList> {
         padding: const EdgeInsets.only(top: 10),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('doctors')
+              .collection('users')
+              .where('role', isEqualTo: 'doctor')
               .orderBy('type')
               .startAt([widget.type]).endAt(
                   ['${widget.type}\uf8ff']).snapshots(),

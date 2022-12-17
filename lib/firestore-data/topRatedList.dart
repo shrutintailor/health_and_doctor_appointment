@@ -17,16 +17,18 @@ class _TopRatedListState extends State<TopRatedList> {
     return SafeArea(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('doctors')
+            .collection('users')
+            .where('role', isEqualTo: 'doctor')
             .orderBy('rating', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState != ConnectionState.active &&
+              !snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (snapshot.data!.docs.length < 1) {
+          if (snapshot.data == null || snapshot.data!.docs.length < 1) {
             return Center(
               child: Container(
                 child: Column(

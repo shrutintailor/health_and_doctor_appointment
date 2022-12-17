@@ -45,17 +45,19 @@ class _SearchListState extends State<SearchList> {
       body: SafeArea(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('doctors')
+              .collection('users')
+              .where('role', isEqualTo: 'doctor')
               .orderBy('name')
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.active &&
+                !snapshot.hasData) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (snapshot.data!.size != 0) {
+            if (snapshot.data != null && snapshot.data!.size != 0) {
               finalData = [];
               for (var i = 0; i < snapshot.data!.size; i++) {
                 if (snapshot.data!.docs[i]['name']
@@ -127,8 +129,9 @@ class _SearchListState extends State<SearchList> {
                                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(doctor['image']),
+                                      backgroundImage: NetworkImage(
+                                          doctor['image'],
+                                          scale: 1),
                                       //backgroundColor: Colors.blue,
                                       radius: 25,
                                     ),
@@ -142,7 +145,7 @@ class _SearchListState extends State<SearchList> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          doctor['name'],
+                                          doctor['name'] ?? 'Not Added',
                                           style: GoogleFonts.lato(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17,
@@ -178,7 +181,7 @@ class _SearchListState extends State<SearchList> {
                                               width: 3,
                                             ),
                                             Text(
-                                              doctor['rating']
+                                              doctor['rating'] != null
                                                   ? doctor['rating'].toString()
                                                   : 'Not added',
                                               style: GoogleFonts.lato(
