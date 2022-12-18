@@ -101,7 +101,7 @@ class _UserDetailsState extends State<UserDetails> {
             .doc(user.uid)
             .snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (!snapshot.hasData)
+          if (snapshot.connectionState != ConnectionState.active)
             return Center(
               child: CircularProgressIndicator(),
             );

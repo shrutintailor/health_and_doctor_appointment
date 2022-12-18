@@ -31,7 +31,7 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                   ['${widget.disease}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.active) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -186,6 +186,9 @@ class _DiseaseDetailState extends State<DiseaseDetail> {
                                 )
                               ],
                             )),
+                        const SizedBox(
+                          height: 20,
+                        ),
                       ],
                     ),
                   );

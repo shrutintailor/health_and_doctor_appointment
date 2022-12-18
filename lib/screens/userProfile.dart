@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
-import 'package:health_and_doctor_appointment/firestore-data/appointmentHistoryList.dart';
-import 'package:health_and_doctor_appointment/firestore-data/userDetails.dart';
-import 'package:health_and_doctor_appointment/screens/userSettings.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -20,6 +17,7 @@ class _UserProfileState extends State<UserProfile> {
   var user;
   var userData;
   bool isUpdate = false;
+  bool isDoctor = false;
   List<Widget> datalist = [];
 
   Future<void> _getUser() async {
@@ -76,14 +74,22 @@ class _UserProfileState extends State<UserProfile> {
   List displayLableValues = [];
 
   void createDataList() {
+    datalist = [];
+    displayLableNames = userLableNames;
+    displayLableValues = userLableValues;
+    if (userData['role'] == 'doctor') {
+      displayLableNames = doctorLableNames;
+      displayLableValues = doctorLableValues;
+      isDoctor = true;
+    }
     for (var index = 0; index < displayLableNames.length; index++) {
-      if (displayLableValues[index] == 'name' && !isUpdate) {
+      if (!isUpdate && displayLableValues[index] == 'name') {
         continue;
       }
       datalist.add(
         Container(
           padding: EdgeInsets.symmetric(horizontal: 14),
-          height: MediaQuery.of(context).size.height / 14,
+          height: MediaQuery.of(context).size.height / 10,
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
           decoration: BoxDecoration(
@@ -97,6 +103,8 @@ class _UserProfileState extends State<UserProfile> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    onChanged: (value) =>
+                        userData[displayLableValues[index]] = value,
                     decoration: InputDecoration(
                       label: Text(displayLableNames[index]),
                       labelStyle: const TextStyle(
@@ -111,7 +119,8 @@ class _UserProfileState extends State<UserProfile> {
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
-                    enabled: isUpdate,
+                    enabled:
+                        displayLableValues[index] != 'email' ? isUpdate : false,
                   ),
                 ),
               ],
@@ -136,19 +145,13 @@ class _UserProfileState extends State<UserProfile> {
           .doc(user.uid)
           .snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (!snapshot.hasData) {
+        if (snapshot.connectionState != ConnectionState.active) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
         userData =
             snapshot.data!.data != null ? snapshot.data!.data() as Map : Map();
-        displayLableNames = userLableNames;
-        displayLableValues = userLableValues;
-        if (userData['role'] == 'doctor') {
-          displayLableNames = doctorLableNames;
-          displayLableValues = doctorLableValues;
-        }
         createDataList();
         return Scaffold(
           body: SafeArea(
@@ -232,72 +235,45 @@ class _UserProfileState extends State<UserProfile> {
                     ...datalist,
                     Container(
                       margin:
-                          const EdgeInsets.only(left: 15, right: 15, top: 20),
-                      padding: const EdgeInsets.only(left: 20, top: 20),
-                      height: MediaQuery.of(context).size.height / 5,
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      height: MediaQuery.of(context).size.height / 14,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.blueGrey[50],
+                        color: Colors.blue[900]!.withOpacity(0.9),
                       ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Container(
-                                  height: 27,
-                                  width: 27,
-                                  color: Colors.green[900],
-                                  child: const Icon(
-                                    FlutterIcons.history_faw,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Appointment History",
-                                style: GoogleFonts.lato(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  alignment: Alignment.centerRight,
-                                  child: SizedBox(
-                                    height: 30,
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      child: const Text('View all'),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
+                      child: TextButton(
+                        onPressed: () async {
+                          if (isUpdate) {
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user.uid)
+                                .set({
+                              'birthDate': userData['birthDate'],
+                              'name': userData['name'],
+                              'specification': userData['specification'],
+                              'type': userData['type'],
+                              'address': userData['address'],
+                              'phone': userData['phone'],
+                              'openHour': userData['openHour'],
+                              'closeHour': userData['closeHour'],
+                              'bio': userData['bio'],
+                              'city': userData['city'],
+                            }, SetOptions(merge: true));
+                          }
+                          setState(() {
+                            isUpdate = !isUpdate;
+                          });
+                        },
+                        child: Text(
+                          isUpdate ? 'Update Profile' : 'Edit Profile',
+                          style: GoogleFonts.lato(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Expanded(
-                            child: Scrollbar(
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.only(left: 35, right: 15),
-                                child: const SingleChildScrollView(
-                                  child: AppointmentHistoryList(),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     const SizedBox(

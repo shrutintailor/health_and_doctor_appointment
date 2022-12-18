@@ -47,12 +47,10 @@ class _SearchListState extends State<SearchList> {
           stream: FirebaseFirestore.instance
               .collection('users')
               .where('role', isEqualTo: 'doctor')
-              .orderBy('name')
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.connectionState != ConnectionState.active &&
-                !snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.active) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -68,6 +66,8 @@ class _SearchListState extends State<SearchList> {
                 }
               }
             }
+            finalData.sort((firstDoctor, anotherDoctor) =>
+                firstDoctor['name'].compareTo(anotherDoctor['name']));
             return finalData.isEmpty
                 ? Center(
                     child: Container(

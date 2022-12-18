@@ -24,6 +24,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
 
   @override
   Widget build(BuildContext context) {
+    List finalData = [];
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -31,25 +32,36 @@ class _DoctorProfileState extends State<DoctorProfile> {
           stream: FirebaseFirestore.instance
               .collection('users')
               .where('role', isEqualTo: 'doctor')
-              .orderBy('name')
-              .startAt([widget.doctor]).endAt(
-                  ['${widget.doctor}\uf8ff']).snapshots(),
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.active) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
+            if (snapshot.data != null && snapshot.data!.size != 0) {
+              finalData = [];
+              for (var i = 0; i < snapshot.data!.size; i++) {
+                if (snapshot.data!.docs[i]['name']
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.doctor.toString().toLowerCase())) {
+                  finalData.add(snapshot.data!.docs[i]);
+                }
+              }
+            }
+            finalData.sort((firstDoctor, anotherDoctor) =>
+                firstDoctor['name'].compareTo(anotherDoctor['name']));
             return NotificationListener<OverscrollIndicatorNotification>(
               onNotification: (OverscrollIndicatorNotification overscroll) {
                 overscroll.disallowIndicator();
                 return true;
               },
               child: ListView.builder(
-                itemCount: snapshot.data!.size,
+                itemCount: finalData.length,
                 itemBuilder: (context, index) {
-                  DocumentSnapshot document = snapshot.data!.docs[index];
+                  DocumentSnapshot document = finalData[index];
                   return Container(
                     margin: const EdgeInsets.only(top: 5),
                     child: Column(

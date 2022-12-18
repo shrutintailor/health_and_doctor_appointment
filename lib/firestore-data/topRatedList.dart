@@ -19,11 +19,9 @@ class _TopRatedListState extends State<TopRatedList> {
         stream: FirebaseFirestore.instance
             .collection('users')
             .where('role', isEqualTo: 'doctor')
-            .orderBy('rating', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState != ConnectionState.active &&
-              !snapshot.hasData) {
+          if (snapshot.connectionState != ConnectionState.active) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -53,6 +51,9 @@ class _TopRatedListState extends State<TopRatedList> {
               ),
             );
           }
+          List finalDoctorList = snapshot.data!.docs;
+          finalDoctorList.sort((firstDoctor, anotherDoctor) =>
+              anotherDoctor['rating'].compareTo(firstDoctor['rating']));
           return ListView.builder(
             scrollDirection: Axis.vertical,
             physics: const ClampingScrollPhysics(),
@@ -60,7 +61,7 @@ class _TopRatedListState extends State<TopRatedList> {
             itemCount:
                 snapshot.data!.docs.length > 5 ? 5 : snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-              DocumentSnapshot doctor = snapshot.data!.docs[index];
+              DocumentSnapshot doctor = finalDoctorList[index];
               return Padding(
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Card(

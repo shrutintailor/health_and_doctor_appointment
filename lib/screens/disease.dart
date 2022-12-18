@@ -32,10 +32,10 @@ class _DiseaseState extends State<Disease> {
             stream: FirebaseFirestore.instance
                 .collection('disease')
                 .orderBy('Name')
-                .startAt(['']).endAt(['' + '\uf8ff']).snapshots(),
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) {
+              if (snapshot.connectionState != ConnectionState.active) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -69,53 +69,55 @@ class _DiseaseState extends State<Disease> {
                 physics: const BouncingScrollPhysics(),
                 children: snapshot.data!.docs.map((document) {
                   return Container(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 0),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 10,
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                        color: Colors.black87,
-                        width: 0.2,
-                      ))),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DiseaseDetail(
-                                      disease: document['Name'],
-                                    )),
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  document['Name'],
-                                  style: GoogleFonts.lato(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                                Text(
-                                  document['Symptoms'],
-                                  style: GoogleFonts.lato(
-                                      fontSize: 14, color: Colors.black54),
-                                ),
-                              ],
-                            ),
-                          ],
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 10,
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.black87,
+                          width: 0.2,
                         ),
-                      ));
+                      ),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DiseaseDetail(
+                              disease: document['Name'],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            document['Name'],
+                            style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black87,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            maxLines: 1,
+                          ),
+                          Text(
+                            document['Symptoms'],
+                            style: GoogleFonts.lato(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 }).toList(),
               );
             }));

@@ -58,7 +58,7 @@ class _AppointmentHistoryListState extends State<AppointmentHistoryList> {
             .orderBy('date', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState != ConnectionState.active) {
             return const Center(
               child: CircularProgressIndicator(),
             );

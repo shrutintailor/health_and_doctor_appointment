@@ -112,7 +112,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
             .orderBy('date')
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState != ConnectionState.active) {
             return const Center(
               child: CircularProgressIndicator(),
             );

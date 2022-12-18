@@ -15,6 +15,7 @@ class ExploreList extends StatefulWidget {
 class _ExploreListState extends State<ExploreList> {
   @override
   Widget build(BuildContext context) {
+    List finalData = [];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -41,12 +42,25 @@ class _ExploreListState extends State<ExploreList> {
                   ['${widget.type}\uf8ff']).snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.active) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (snapshot.data!.docs.length < 1) {
+            if (snapshot.data != null && snapshot.data!.size != 0) {
+              finalData = [];
+              for (var i = 0; i < snapshot.data!.size; i++) {
+                if (snapshot.data!.docs[i]['type']
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.type.toString().toLowerCase())) {
+                  finalData.add(snapshot.data!.docs[i]);
+                }
+              }
+            }
+            finalData.sort((firstDoctor, anotherDoctor) =>
+                firstDoctor['type'].compareTo(anotherDoctor['type']));
+            if (finalData.length < 1) {
               return Center(
                 child: Container(
                   child: Column(
@@ -75,9 +89,9 @@ class _ExploreListState extends State<ExploreList> {
               scrollDirection: Axis.vertical,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: snapshot.data!.size,
+              itemCount: finalData.length,
               itemBuilder: (context, index) {
-                DocumentSnapshot doctor = snapshot.data!.docs[index];
+                DocumentSnapshot doctor = finalData[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Card(
@@ -105,7 +119,8 @@ class _ExploreListState extends State<ExploreList> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           //mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            const CircleAvatar(
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(doctor['image']),
                               backgroundColor: Colors.blue,
                               radius: 25,
                             ),
