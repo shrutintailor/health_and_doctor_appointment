@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:health_and_doctor_appointment/firestore-data/appointmentHistoryList.dart';
+import 'package:health_and_doctor_appointment/firestore-data/userDetails.dart';
 import 'package:health_and_doctor_appointment/screens/userSettings.dart';
 
 class UserProfile extends StatefulWidget {
@@ -18,9 +19,107 @@ class _UserProfileState extends State<UserProfile> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
   var userData;
+  bool isUpdate = false;
+  List<Widget> datalist = [];
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;
+  }
+
+  Future _signOut() async {
+    await _auth.signOut();
+  }
+
+  List userLableNames = [
+    'Name',
+    'Email',
+    'Mobile Number',
+    'Bio',
+    'Birthday',
+    'City',
+  ];
+
+  List doctorLableNames = [
+    'Name',
+    'Email',
+    'Mobile Number',
+    'Specifications',
+    'Categories',
+    'Birthday',
+    'Clinic Address',
+    'Opening Hour',
+    'Closeing Hour',
+  ];
+
+  List userLableValues = [
+    'name',
+    'email',
+    'phone',
+    'bio',
+    'birthDate',
+    'city',
+  ];
+
+  List doctorLableValues = [
+    'name',
+    'email',
+    'phone',
+    'specification',
+    'type',
+    'birthDate',
+    'address',
+    'openHour',
+    'closeHour',
+  ];
+
+  List displayLableNames = [];
+  List displayLableValues = [];
+
+  void createDataList() {
+    for (var index = 0; index < displayLableNames.length; index++) {
+      if (displayLableValues[index] == 'name' && !isUpdate) {
+        continue;
+      }
+      datalist.add(
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 14),
+          height: MediaQuery.of(context).size.height / 14,
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.blueGrey[50],
+          ),
+          child: Ink(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      label: Text(displayLableNames[index]),
+                      labelStyle: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    initialValue:
+                        userData[displayLableValues[index]] ?? 'Not Added',
+                    style: GoogleFonts.lato(
+                      color: Colors.black54,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    enabled: isUpdate,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -44,6 +143,13 @@ class _UserProfileState extends State<UserProfile> {
         }
         userData =
             snapshot.data!.data != null ? snapshot.data!.data() as Map : Map();
+        displayLableNames = userLableNames;
+        displayLableValues = userLableValues;
+        if (userData['role'] == 'doctor') {
+          displayLableNames = doctorLableNames;
+          displayLableValues = doctorLableValues;
+        }
+        createDataList();
         return Scaffold(
           body: SafeArea(
             child: NotificationListener<OverscrollIndicatorNotification>(
@@ -51,286 +157,154 @@ class _UserProfileState extends State<UserProfile> {
                 overscroll.disallowIndicator();
                 return true;
               },
-              child: ListView(
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                children: <Widget>[
-                  Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                stops: [0.1, 0.5],
-                                colors: [
-                                  Colors.indigo,
-                                  Colors.indigoAccent,
-                                ],
-                              ),
-                            ),
-                            height: MediaQuery.of(context).size.height / 5,
-                            child: Container(
-                              padding: const EdgeInsets.only(top: 10, right: 7),
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                icon: const Icon(
-                                  FlutterIcons.gear_faw,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const UserSettings(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            height: MediaQuery.of(context).size.height / 5,
-                            padding: const EdgeInsets.only(top: 75),
-                            child: Text(
-                              userData['name'] ?? "Not Added",
-                              style: GoogleFonts.lato(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.teal[50]!.withOpacity(1),
-                              width: 5,
-                            ),
-                            shape: BoxShape.circle),
-                        child: CircleAvatar(
-                          radius: 80,
-                          backgroundColor: Colors.white,
-                          backgroundImage: NetworkImage(
-                            userData['image'],
-                            scale: 1,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 15, right: 15),
-                    padding: const EdgeInsets.only(left: 20),
-                    height: MediaQuery.of(context).size.height / 7,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blueGrey[50],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
                       children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
+                            Container(
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  stops: [0.1, 0.5],
+                                  colors: [
+                                    Colors.indigo,
+                                    Colors.indigoAccent,
+                                  ],
+                                ),
+                              ),
+                              height: MediaQuery.of(context).size.height / 5,
                               child: Container(
-                                height: 27,
-                                width: 27,
-                                color: Colors.red[900],
-                                child: const Icon(
-                                  Icons.mail_rounded,
-                                  color: Colors.white,
-                                  size: 16,
+                                padding:
+                                    const EdgeInsets.only(top: 10, right: 7),
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    FlutterIcons.sign_out_alt_faw5s,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil('/login',
+                                            (Route<dynamic> route) => false);
+                                    _signOut();
+                                  },
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              userData['email'] ?? "Not Added",
-                              style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Container(
-                                height: 27,
-                                width: 27,
-                                color: Colors.blue[800],
-                                child: const Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                  size: 16,
+                            Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.of(context).size.height / 5,
+                              padding: const EdgeInsets.only(top: 75),
+                              child: Text(
+                                userData['name'] ?? "Not Added",
+                                style: GoogleFonts.lato(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              userData['phone'] ?? "Not Added",
-                              style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
-                    padding: const EdgeInsets.only(left: 20, top: 20),
-                    height: MediaQuery.of(context).size.height / 7,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blueGrey[50],
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Container(
-                                height: 27,
-                                width: 27,
-                                color: Colors.indigo[600],
-                                child: const Icon(
-                                  FlutterIcons.pencil_ent,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Bio',
-                              style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                             ),
                           ],
                         ),
                         Container(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(top: 10, left: 40),
-                            child: Text(
-                              userData['bio'] ?? "No Bio",
-                              style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black38,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.teal[50]!.withOpacity(1),
+                                width: 5,
                               ),
+                              shape: BoxShape.circle),
+                          child: CircleAvatar(
+                            radius: 80,
+                            backgroundColor: Colors.white,
+                            backgroundImage: NetworkImage(
+                              userData['image'],
+                              scale: 1,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 15, right: 15, top: 20),
-                    padding: const EdgeInsets.only(left: 20, top: 20),
-                    height: MediaQuery.of(context).size.height / 5,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blueGrey[50],
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Container(
-                                height: 27,
-                                width: 27,
-                                color: Colors.green[900],
-                                child: const Icon(
-                                  FlutterIcons.history_faw,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Appointment History",
-                              style: GoogleFonts.lato(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.only(right: 10),
-                                alignment: Alignment.centerRight,
-                                child: SizedBox(
-                                  height: 30,
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: const Text('View all'),
+                    ...datalist,
+                    Container(
+                      margin:
+                          const EdgeInsets.only(left: 15, right: 15, top: 20),
+                      padding: const EdgeInsets.only(left: 20, top: 20),
+                      height: MediaQuery.of(context).size.height / 5,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.blueGrey[50],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Container(
+                                  height: 27,
+                                  width: 27,
+                                  color: Colors.green[900],
+                                  child: const Icon(
+                                    FlutterIcons.history_faw,
+                                    color: Colors.white,
+                                    size: 16,
                                   ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Expanded(
-                          child: Scrollbar(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.only(left: 35, right: 15),
-                              child: const SingleChildScrollView(
-                                child: AppointmentHistoryList(),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Appointment History",
+                                style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  alignment: Alignment.centerRight,
+                                  child: SizedBox(
+                                    height: 30,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: const Text('View all'),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: Scrollbar(
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.only(left: 35, right: 15),
+                                child: const SingleChildScrollView(
+                                  child: AppointmentHistoryList(),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
