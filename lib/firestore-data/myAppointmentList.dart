@@ -103,6 +103,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
 
   @override
   Widget build(BuildContext context) {
+    print(user);
     return SafeArea(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
