@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:health_and_doctor_appointment/screens/doctorProfile.dart';
 import 'package:health_and_doctor_appointment/screens/firebaseAuth.dart';
 import 'package:health_and_doctor_appointment/mainPage.dart';
@@ -12,11 +13,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -37,6 +38,17 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _getUser() async {
     user = _auth.currentUser;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 3));
+    FlutterNativeSplash.remove();
   }
 
   @override

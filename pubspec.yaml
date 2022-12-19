@@ -246,9 +246,9 @@ flutter:
 #   #  - 'ios/Runner/Info-Release.plist'
 
 flutter_native_splash:
-  color: "#ffffff"
+  color: '#283593'
   image: assets/logo.png
 
   android_12:
     image: assets/logo.png
-    icon_background_color: "#ffffff"
+    icon_background_color: '#283593'
