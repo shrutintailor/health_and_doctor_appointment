@@ -78,14 +78,6 @@ class _DoctorsListState extends State<DoctorsList> {
                         )
                       : const SizedBox(),
                 ),
-                // onFieldSubmitted: (String _searchKey) {
-                //   setState(
-                //     () {
-                //       print('>>>' + _searchKey);
-                //       search = _searchKey;
-                //     },
-                //   );
-                // },
                 onChanged: (String _searchKey) {
                   setState(
                     () {

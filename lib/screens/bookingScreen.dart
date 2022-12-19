@@ -529,6 +529,8 @@ class _BookingScreenState extends State<BookingScreen> {
       'description': _descriptionController.text,
       'doctor': _doctorController.text,
       'date': DateTime.parse(dateUTC + ' ' + date_Time + ':00'),
+      'status': 'pending',
+      'email': user.email,
     }, SetOptions(merge: true));
 
     FirebaseFirestore.instance
@@ -542,6 +544,8 @@ class _BookingScreenState extends State<BookingScreen> {
       'description': _descriptionController.text,
       'doctor': _doctorController.text,
       'date': DateTime.parse(dateUTC + ' ' + date_Time + ':00'),
+      'status': 'pending',
+      'email': user.email,
     }, SetOptions(merge: true));
   }
 }

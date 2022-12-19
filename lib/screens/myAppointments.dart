@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,9 +44,28 @@ class _MyAppointmentsState extends State<MyAppointments> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
-        child: const MyAppointmentList(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .snapshots(),
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState != ConnectionState.active) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          var userData = snapshot.data!.data != null
+              ? snapshot.data!.data() as Map
+              : Map();
+          var isDoctor = userData['role'] == 'doctor' ?? false;
+          return Container(
+            padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
+            child: MyAppointmentList(
+              isDoctor: isDoctor,
+            ),
+          );
+        },
       ),
     );
   }

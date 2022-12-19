@@ -255,7 +255,6 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       itemCount: cards.length,
                       itemBuilder: (context, index) {
-                        //print("images path: ${cards[index].cardImage.toString()}");
                         return Container(
                           margin: const EdgeInsets.only(right: 14),
                           height: 150,

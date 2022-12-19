@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class MyAppointmentList extends StatefulWidget {
-  const MyAppointmentList({Key? key}) : super(key: key);
+  final bool isDoctor;
+  const MyAppointmentList({Key? key, required this.isDoctor}) : super(key: key);
 
   @override
   State<MyAppointmentList> createState() => _MyAppointmentListState();
@@ -15,15 +16,16 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var user;
   var _documentID;
+  var _documentEmail;
 
   Future<void> _getUser() async {
     user = _auth.currentUser!;
   }
 
-  Future<void> deleteAppointment(String docID) {
+  Future<void> deleteAppointment(String email, String docID) {
     return FirebaseFirestore.instance
         .collection('appointments')
-        .doc(user.email.toString())
+        .doc(email)
         .collection('pending')
         .doc(docID)
         .delete();
@@ -52,7 +54,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
     Widget continueButton = TextButton(
       child: const Text("Yes"),
       onPressed: () {
-        deleteAppointment(_documentID);
+        deleteAppointment(_documentEmail, _documentID);
         Navigator.of(context).pop();
       },
     );
@@ -103,22 +105,41 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
 
   @override
   Widget build(BuildContext context) {
-    print(user);
     return SafeArea(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('appointments')
-            .doc(user.email.toString())
-            .collection('pending')
-            .orderBy('date')
-            .snapshots(),
+        stream: widget.isDoctor
+            ? FirebaseFirestore.instance
+                .collection("appointments")
+                .doc()
+                .collection('all')
+                .snapshots()
+            : FirebaseFirestore.instance
+                .collection('appointments')
+                .doc(user.email.toString())
+                .collection('pending')
+                .orderBy('date')
+                .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState != ConnectionState.active) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          return snapshot.data!.size == 0
+          var finalData = [];
+          print(snapshot.data!.size);
+          if (snapshot.data != null && snapshot.data!.size != 0) {
+            finalData = [];
+            if (widget.isDoctor) {
+              for (var i = 0; i < snapshot.data!.size; i++) {
+                DocumentSnapshot document = snapshot.data!.docs[i];
+                print(document);
+                finalData.add(snapshot.data!.docs[i]);
+              }
+            } else {
+              finalData = snapshot.data!.docs;
+            }
+          }
+          return finalData.length == 0
               ? Center(
                   child: Text(
                     'No Appointment Scheduled',
@@ -132,12 +153,11 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                   scrollDirection: Axis.vertical,
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: snapshot.data!.size,
+                  itemCount: finalData.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data!.docs[index];
-                    print(_compareDate(document['date'].toDate().toString()));
+                    DocumentSnapshot document = finalData[index];
                     if (_checkDiff(document['date'].toDate())) {
-                      deleteAppointment(document.id);
+                      deleteAppointment(_documentEmail, document.id);
                     }
                     return Card(
                       elevation: 2,
@@ -218,6 +238,7 @@ class _MyAppointmentListState extends State<MyAppointmentList> {
                                       color: Colors.black87,
                                     ),
                                     onPressed: () {
+                                      // _documentEmail = document.email;
                                       _documentID = document.id;
                                       showAlertDialog(context);
                                     },

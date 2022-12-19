@@ -482,8 +482,6 @@ class _RegisterState extends State<Register> {
               '[firebase_auth/email-already-in-use] The email address is already in use by another account.') ==
           0) {
         showAlertDialog(context);
-        // print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        // print(user);
       }
     }
   }
