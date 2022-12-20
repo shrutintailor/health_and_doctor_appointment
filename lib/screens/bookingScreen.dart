@@ -7,8 +7,11 @@ import 'package:intl/intl.dart';
 
 class BookingScreen extends StatefulWidget {
   final String doctor;
+  final String doctorEmail;
 
-  const BookingScreen({Key? key, required this.doctor}) : super(key: key);
+  const BookingScreen(
+      {Key? key, required this.doctor, required this.doctorEmail})
+      : super(key: key);
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
@@ -521,21 +524,6 @@ class _BookingScreenState extends State<BookingScreen> {
     FirebaseFirestore.instance
         .collection('appointments')
         .doc(user.email)
-        .collection('pending')
-        .doc()
-        .set({
-      'name': _nameController.text,
-      'phone': _phoneController.text,
-      'description': _descriptionController.text,
-      'doctor': _doctorController.text,
-      'date': DateTime.parse(dateUTC + ' ' + date_Time + ':00'),
-      'status': 'pending',
-      'email': user.email,
-    }, SetOptions(merge: true));
-
-    FirebaseFirestore.instance
-        .collection('appointments')
-        .doc(user.email)
         .collection('all')
         .doc()
         .set({
@@ -546,6 +534,23 @@ class _BookingScreenState extends State<BookingScreen> {
       'date': DateTime.parse(dateUTC + ' ' + date_Time + ':00'),
       'status': 'pending',
       'email': user.email,
+      'doctorEmail': widget.doctorEmail,
+    }, SetOptions(merge: true));
+
+    FirebaseFirestore.instance
+        .collection('user_appointments')
+        .doc(widget.doctorEmail)
+        .collection('all')
+        .doc()
+        .set({
+      'name': _nameController.text,
+      'phone': _phoneController.text,
+      'description': _descriptionController.text,
+      'doctor': _doctorController.text,
+      'date': DateTime.parse(dateUTC + ' ' + date_Time + ':00'),
+      'status': 'pending',
+      'email': user.email,
+      'doctorEmail': widget.doctorEmail,
     }, SetOptions(merge: true));
   }
 }

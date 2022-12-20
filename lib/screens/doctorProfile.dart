@@ -317,6 +317,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => BookingScreen(
+                                    doctorEmail: document['email'],
                                     doctor: document['name'],
                                   ),
                                 ),
